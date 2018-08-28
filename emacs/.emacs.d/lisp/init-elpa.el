@@ -1,4 +1,8 @@
 ;;; init-elpa.el --- Configuration for ELPA package management.
+;;; Commentary:
+;;; The repos are mainly from mirros in China.
+
+;;; Code:
 
 ;; ELPA package management. Main reference: https://www.emacswiki.org/emacs/ELPA
 ;; Mirror in China: use https://github.com/emacs-china/elpa in addition to popkit.
@@ -32,3 +36,5 @@
 (use-package auto-package-update)
 
 (provide 'init-elpa)
+
+;;; init-elpa.el ends here

@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; With reference to configuration from purcell and spacemacs.
 
+;;; Code:
+
 ;; For debug purpose. When encoutering an EmacsLisp error, this will
 ;; pop up a BacktraceBuffer.
 (setq debug-on-error t)
