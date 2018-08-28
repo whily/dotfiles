@@ -6,41 +6,44 @@
 ;; pop up a BacktraceBuffer.
 (setq debug-on-error t)
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 ;;; ----------------------- General ----------------------------
 
 ;; As a fan of Common Lisp.
 (require 'cl)
 
-;; ELPA package management. Main reference: https://www.emacswiki.org/emacs/ELPA
-;; Mirror in China: use https://github.com/emacs-china/elpa in addition to popkit.
-;; Another mirror, not tested, not added below: https://mirrors4.tuna.tsinghua.edu.cn/help/elpa/
-(require 'package)
-(setq package-archives
-      '(("gnu-elpa"     . "http://elpa.emacs-china.org/gnu/")
-        ("melpa-stable" . "http://elpa.emacs-china.org/melpa-stable/")
-        ("melpa" .        "http://elpa.emacs-china.org/melpa/")
-        ("org"          . "https://orgmode.org/elpa/"))
-      package-archive-priorities
-      '(("melpa-stable" . 10)
-        ("gnu-elpa"     . 4)
-        ("melpa"        . 2)
-        ("org"          . 1)))
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
-;; To keep up-to-date, do `M-x list-packages RET U x RET`, or
-;;   use `M-x auto-package-update-now`.
-;; To delete a package, do `M-x list-packages RET d x RET`, or
-;;   use `M-x package-delete RET`.
+(require 'init-elpa)
 
-;; Bootstrap use-package: https://github.com/jwiegley/use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents) (package-install 'use-package))
-(setq use-package-always-ensure t)
-(require 'use-package)
+;; EVIL.
+(use-package evil)
+(use-package evil-leader)
+(global-evil-leader-mode)
+(evil-mode 1)
+(evil-leader/set-leader "<SPC>")
+(evil-leader/set-key
+  "<SPC>"    'execute-extended-command
+  "hdb"      'describe-bindings
+  "hdf"      'describe-function
+  "hdv"      'describe-variable)
 
-;; Automatically update packages.
-(use-package auto-package-update)
+;; https://github.com/seagle0128/doom-modeline
+;; Run M-x all-the-icons-install-fonts to install fonts included with all-the-icons.
+(use-package doom-modeline
+  :ensure t
+  :defer t
+  :hook (after-init . doom-modeline-init))
+
+(use-package dashboard
+  :ensure
+  :config
+  (dashboard-setup-startup-hook))
+
+(use-package rainbow-mode)
+
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Start emacs in full screen. Note that -mm option is not available for emacsclient.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
