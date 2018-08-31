@@ -35,7 +35,7 @@
 (evil-leader/set-key
   "<SPC>"    'execute-extended-command
   "fb"       'counsel-bookmark
-  "fed"      'find-emacs-init-file
+  "fei"      'find-emacs-init-file
   "feR"      'reload-emacs-init-file
   "ff"       'counsel-find-file
   "fL"       'counsel-locate
@@ -150,6 +150,22 @@
 (use-package avy
   :config
   (global-set-key (kbd "C-c j") 'avy-goto-word-or-subword-1))
+
+;; Copy configuration from https://github.com/jwiegley/use-package
+(use-package color-moccur
+  :commands (isearch-moccur isearch-all)
+  :bind (("M-s O" . moccur)
+         :map isearch-mode-map
+         ("M-o" . isearch-moccur)
+         ("M-O" . isearch-moccur-all))
+  :init
+  (setq isearch-lazy-highlight t)
+  :config
+  (use-package moccur-edit))
+
+;; https://github.com/wasamasa/nov.el
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode))
 
 ;; When splitting windows, prefer to split horizontally, as in
 ;; http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
@@ -493,7 +509,23 @@
 (setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"
       ein:jupyter-default-notebook-directory "~/tutorial/pytorch")
 ;; Start the server with `M-x ein:jupyter-server-start`.
-:
+;; Increase image size on HiDPI screen. From https://github.com/syl20bnr/spacemacs/issues/8770
+(defun create-image-2x (oldfun file-or-data &optional type data-p &rest props)
+  (let ((original (apply oldfun (append (list file-or-data type data-p) props))))
+    (if (memq type '(xpm xbm pbm imagemagick)) ;not sure about xbm,pbm,imagemagick
+        original
+      (let* ((width-height (image-size original t))
+             (width (car width-height))
+             (height (cdr width-height))
+             (width-2x (* 2 width))
+             (height-2x (* 2 height))
+             (newprops (plist-put props :format type))
+             (newprops (plist-put newprops :width width-2x))
+             (newprops (plist-put newprops :height height-2x))
+             (newargs (append (list file-or-data 'imagemagick data-p) newprops)))
+        (apply oldfun newargs)))))
+(advice-add 'create-image :around #'create-image-2x)
+
 ;; py-autopep8 from https://github.com/paetzke/py-autopep8.el
 ;; Make sure autopep8 is already installed in python side (should be
 ;; included in python-language-server[all] required by LSP.
@@ -539,8 +571,7 @@
 ;; Use eglot for BASH.
 (use-package eglot
   :ensure-system-package
-  ; Following command does not work: sudo npm i -g bash-language-server
-  (bash-language-server . "sudo pacman -S bash-language-server")
+  (bash-language-server . "npm i -g bash-language-server")
   :config
   (add-hook 'sh-mode-hook 'eglot-ensure))
 
@@ -638,13 +669,13 @@
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
 ;; LSP for html from https://github.com/emacs-lsp/lsp-html
-;; First run in cli: sudo npm i -g vscode-html-languageserver-bin
+;; First run in cli: npm i -g vscode-html-languageserver-bin
 (use-package lsp-html
   :config
   (add-hook 'web-mode-hook #'lsp-html-enable))
 
 ;; LSP for css from https://github.com/emacs-lsp/lsp-css
-;; First run in cli: sudo npm i -g vscode-css-languageserver-bin
+;; First run in cli: npm i -g vscode-css-languageserver-bin
 (defun my-css-mode-setup ()
   (when (eq major-mode 'css-mode)
     ;; Only enable in strictly css-mode, not scss-mode (css-mode-hook
@@ -664,7 +695,7 @@
   ;; Better imenu
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 ;; Follow https://github.com/emacs-lsp/lsp-javascript
-;; First run in CLI: sudo npm i -g javascript-typescript-langserver
+;; First run in CLI: npm i -g javascript-typescript-langserver
 (use-package lsp-javascript-typescript
   :config
   (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
@@ -675,7 +706,7 @@
 ;; Use eslint and babel with flycheck for JS.
 ;; Based on http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html,
 ;; but removing configurations with React.js JSX.
-;; In CLI: sudo npm install -g eslint babel-eslint
+;; In CLI: npm install -g eslint babel-eslint
 ;; Run `eslint -v` and make sure babel version is 5.x.
 ;; Edit `~/.eslintrc` for configuraton.
 ;; Disable jshint since we prefer eslint checking.
@@ -689,7 +720,7 @@
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 (flycheck-add-mode 'javascript-eslint 'js2-mode)
 ;; Use `C-c ! v` to check flycheck status whether eslint is enabled.
-;; Install jsonlint by `sudo npm i -g jsonlint`.
+;; Install jsonlint by `npm i -g jsonlint`.
 
 ;; Skewer mode according to https://github.com/skeeto/skewer-mode
 ;; To run skewer,
@@ -731,3 +762,17 @@
                         ,load-file-name elapsed))) t)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (nov zeal-at-point yasnippet-snippets which-key web-mode w3m use-package-ensure-system-package unicode-fonts tern slime scala-mode sbt-mode sage-shell-mode rainbow-mode rainbow-delimiters pyvenv python-mode py-autopep8 nasm-mode multiple-cursors mmt material-theme magit lsp-ui lsp-javascript-typescript lsp-html lsp-css live-py-mode keychain-environment image+ htmlize highlight-indentation helm gap-mode find-file-in-project evil-leader enh-ruby-mode emmet-mode ein eglot ebib dracula-theme doom-modeline diminish dashboard cquery counsel company-quickhelp company-lsp color-moccur cider better-defaults avy auto-package-update auctex))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((((type tty)) (:background "#000000" :foreground "#f8f8f2")) (((type graphic)) (:background "#282a36" :foreground "#f8f8f2")))))
