@@ -30,11 +30,19 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents) (package-install 'use-package))
 (setq use-package-always-ensure t)
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
+(require 'bind-key)
 
 ;; Automatically update packages.
-(use-package auto-package-update)
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+(use-package use-package-ensure-system-package
+  :ensure t)
 
 (provide 'init-elpa)
-
 ;;; init-elpa.el ends here

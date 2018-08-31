@@ -4,6 +4,10 @@
 
 ;;; Code:
 
+;; Emacs load time below and at the end of the file is based on
+;;    https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(defconst emacs-start-time (current-time))
+
 ;; For debug purpose. When encoutering an EmacsLisp error, this will
 ;; pop up a BacktraceBuffer.
 (setq debug-on-error t)
@@ -23,14 +27,43 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 (evil-leader/set-leader "<SPC>")
+(use-package which-key
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.3))
+
 (evil-leader/set-key
   "<SPC>"    'execute-extended-command
+  "fb"       'counsel-bookmark
+  "fed"      'find-emacs-init-file
+  "feR"      'reload-emacs-init-file
+  "ff"       'counsel-find-file
+  "fL"       'counsel-locate
+  "fr"       'counsel-locate
+  "fs"       'save-buffer
   "hdb"      'describe-bindings
+  "hdc"      'describe-char
   "hdf"      'describe-function
+  "hdk"      'describe-key
   "hdv"      'describe-variable)
 
+(which-key-add-key-based-replacements
+ "<SPC> f"   "files"
+ "<SPC> f e" "emacs"
+ "<SPC> h"   "help"
+ "<SPC> h d" "help-describe")
+
+(defun find-emacs-init-file ()
+  "Edit Emacs init.el in the current window."
+  (interactive)
+  (find-file-existing user-init-file))
+
+(defun reload-emacs-init-file ()
+  "Reload Emacs init.el."
+  (interactive)
+  (load-file user-init-file))
+
 ;; https://github.com/seagle0128/doom-modeline
-;; Run M-x all-the-icons-install-fonts to install fonts included with all-the-icons.
 (use-package doom-modeline
   :ensure t
   :defer t
@@ -105,8 +138,12 @@
 (use-package counsel
   :config
   (ivy-mode 1)
+  (counsel-mode 1)
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "))
+
+(use-package swiper
+  :bind ("C-s" . swiper))
 
 ;; avy https://github.com/abo-abo/avy
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
@@ -131,6 +168,8 @@
 ;; Enable Org mode.
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
+; If there are wrong characters shown in Org deadline, Enable the following line.
+; (setq system-time-locale "C")
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-todo-keywords
@@ -224,7 +263,7 @@
 
 ;; Zeal at point: https://github.com/jinzhu/zeal-at-point
 (use-package zeal-at-point
-  :bind (("\C-cd" . zeal-at-point))
+  :bind ("\C-cd" . zeal-at-point)
   :config
   (add-to-list 'zeal-at-point-mode-alist '(java-mode . "java"))
   (add-to-list 'zeal-at-point-mode-alist '(python-mode . "python"))
@@ -269,6 +308,7 @@
 ;; Useful commands:
 ;;   ?    show available commands
 ;;   RET  go to the file where the change is made
+;;   s or u to stage/unstage the item (file, hunk, or selected region)
 ;;   c a  amend commit
 ;;   c r  reword commit message
 ;;   l l  short log
@@ -496,11 +536,13 @@
                   indent-tabs-mode nil
                   tab-stop-list '(2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32))))
 
-;; LSP for shell
-;; First install Bash Language Server from https://github.com/mads-hartmann/bash-language-server
-;; Below commands does not work, check later.
-;;    sudo npm i -g bash-language-server
-;; No melpa package yet: https://github.com/emacs-lsp/lsp-sh
+;; Use eglot for BASH.
+(use-package eglot
+  :ensure-system-package
+  ; Following command does not work: sudo npm i -g bash-language-server
+  (bash-language-server . "sudo pacman -S bash-language-server")
+  :config
+  (add-hook 'sh-mode-hook 'eglot-ensure))
 
 ;; Imaxima.
 (when unix?
@@ -512,8 +554,8 @@
   (setq imaxima-scale-factor 2.0))
 
 ;; Highlight column 80.
-(use-package column-marker)
-(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-1 80)))
+;(use-package column-marker)
+;(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-1 80)))
 
 ;; Setup SLIME for SBCL.
 ;; Prepareing SLIME.
@@ -647,6 +689,7 @@
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 (flycheck-add-mode 'javascript-eslint 'js2-mode)
 ;; Use `C-c ! v` to check flycheck status whether eslint is enabled.
+;; Install jsonlint by `sudo npm i -g jsonlint`.
 
 ;; Skewer mode according to https://github.com/skeeto/skewer-mode
 ;; To run skewer,
@@ -673,23 +716,18 @@
   (subst-char-in-region start end ?X ?1)
   (subst-char-in-region start end ?Y ?0))
 
-(add-to-list 'load-path "~/.emacs.d/mine")
+(add-to-list 'load-path (expand-file-name "mine" user-emacs-directory))
 
-;;; Customizations.
+(let ((elapsed (float-time (time-subtract (current-time)
+                                          emacs-start-time))))
+  (message "Loading %s...done (%.3fs)" load-file-name elapsed))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (dracula-theme avy live-py-mode yasnippet-snippets w3m htmlize enh-ruby-mode web-mode auto-package-update keychain-environment material-theme better-defaults zeal-at-point use-package unicode-fonts slime projectile nasm-mode markdown-mode magit js2-mode image+ gap-mode ebib column-marker cider auctex)))
- '(py-shell-name "python3")
- '(python-shell-interpreter "~/anaconda3/bin/python3"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 89)) (:foreground "#ffffff" :background "#263238")))))
+(add-hook 'after-init-hook
+          `(lambda ()
+             (let ((elapsed
+                    (float-time
+                     (time-subtract (current-time) emacs-start-time))))
+               (message "Loading %s...done (%.3fs) [after-init]"
+                        ,load-file-name elapsed))) t)
+
+;;; init.el ends here
