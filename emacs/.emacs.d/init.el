@@ -63,11 +63,11 @@
   (interactive)
   (load-file user-init-file))
 
-;; https://github.com/seagle0128/doom-modeline
-(use-package doom-modeline
-  :ensure t
-  :defer t
-  :hook (after-init . doom-modeline-init))
+;; Smart mode line: https://github.com/Malabarba/smart-mode-line/
+(use-package smart-mode-line
+  :config
+  (setq sml/theme 'dark)
+  (sml/setup))
 
 (use-package dashboard
   :ensure
