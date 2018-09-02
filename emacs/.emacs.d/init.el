@@ -36,7 +36,6 @@
 (use-package rainbow-mode :defer t)
 
 (use-package rainbow-delimiters
-  :defer t
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
@@ -197,7 +196,25 @@
 (display-time)
 
 ;; https://github.com/rolandwalker/unicode-fonts
-(use-package unicode-fonts)
+(use-package unicode-fonts
+  :init
+  ;; Minimize the startup delay due to font addition/deletion etc.
+  (setq unicode-fonts-block-font-mapping
+        '(("CJK Compatibility" ("Source Han Sans CN"))
+          ("CJK Compatibility Forms" ("Source Han Sans CN"))
+          ("CJK Compatibility Ideographs" ("Source Han Sans CN"))
+          ("CJK Compatibility Ideographs Supplement" ("Source Han Sans CN"))
+          ("CJK Radicals Supplement" ("Source Han Sans CN"))
+          ("CJK Strokes" ("Source Han Sans CN"))
+          ("CJK Symbols and Punctuation" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension A" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension B" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension C" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension D" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension E" ("Source Han Sans CN"))
+          ("CJK Unified Ideographs Extension F" ("Source Han Sans CN")))
+        unicode-fonts-fontset-names '("fontset-default")))
 (unicode-fonts-setup)
 
 ;; Set font.
@@ -693,18 +710,6 @@
                (message "Loading %s...done (%.3fs) [after-init]"
                         ,load-file-name elapsed))) t)
 
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (nov zeal-at-point yasnippet-snippets which-key web-mode w3m use-package-ensure-system-package unicode-fonts tern slime scala-mode sbt-mode sage-shell-mode rainbow-mode rainbow-delimiters pyvenv python-mode py-autopep8 nasm-mode multiple-cursors mmt material-theme magit lsp-ui lsp-javascript-typescript lsp-html lsp-css live-py-mode keychain-environment image+ htmlize highlight-indentation helm gap-mode find-file-in-project evil-leader enh-ruby-mode emmet-mode ein eglot ebib dracula-theme doom-modeline diminish dashboard cquery counsel company-quickhelp company-lsp color-moccur cider better-defaults avy auto-package-update auctex))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((((type tty)) (:background "#000000" :foreground "#f8f8f2")) (((type graphic)) (:background "#282a36" :foreground "#f8f8f2")))))
