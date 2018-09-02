@@ -33,9 +33,10 @@
   :config
   (dashboard-setup-startup-hook))
 
-(use-package rainbow-mode)
+(use-package rainbow-mode :defer t)
 
 (use-package rainbow-delimiters
+  :defer t
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
@@ -99,7 +100,7 @@
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
 (use-package avy
   :config
-  (global-set-key (kbd "C-c j") 'avy-goto-word-or-subword-1))
+  :bind ("C-c j" . avy-goto-word-or-subword-1))
 
 ;; Copy configuration from https://github.com/jwiegley/use-package
 (use-package color-moccur
@@ -208,10 +209,6 @@
 ;; Disable Electric Indent mode.
 (electric-indent-mode 0)
 
-;; Show battery status.
-(setq battery-mode-line-format " [%b%p%%]")
-(display-battery-mode)
-
 ;; Setup Ediff to use one frame only, which is useful for Stumpwm.
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
@@ -221,7 +218,7 @@
 ;; To manually mark a project folder (which is not version controlled),
 ;; create file named .projectile
 (use-package projectile
-  :demand
+  :demand t
   :init   (setq projectile-use-git-grep t)
   :config
   (projectile-global-mode +1)
@@ -288,9 +285,10 @@
 
 ;; Enable YASnippet.
 (use-package yasnippet
+  :defer t
   :config
   (yas-global-mode 1))
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets :defer t)
 
 ;; Sage whell mode.
 (unless (package-installed-p 'sage-shell-mode)
@@ -305,13 +303,13 @@
 ;;;(add-hook 'sage-startup-after-prompt-hook 'sage-view)
 
 ;; GAP mode
-(use-package gap-mode)
+(use-package gap-mode :defer t)
 
 ;; Ebib.
-(use-package ebib)
+(use-package ebib :defer t)
 
 ;; Add zoom for image viewer.
-(use-package image+)
+(use-package image+ :defer t)
 
 ;; Octave mode, from http://www.gnu.org/software/octave/doc/interpreter/Using-Octave-Mode.html
 ;; Note that in the line below, the file name is actually octave-mod, instead of octave-mode.
@@ -346,7 +344,7 @@
       save-abbrevs t)
 
 ;; Htmlize source code.
-(use-package htmlize)
+(use-package htmlize :defer t)
 
 ;; Regex tool.
 ;;;;;(load "regex-tool" t)
@@ -387,6 +385,7 @@
 ;; Company-mode. Will add backends for corresponding languages separately.
 (use-package company
   :ensure t
+  :defer t
   :init (global-company-mode)
   :config
   (setq company-minimum-prefix-length 1)
@@ -395,12 +394,14 @@
 
 ;; https://github.com/expez/company-quickhelp
 (use-package company-quickhelp
+  :defer t
   :config
   (add-hook 'company-mode-hook 'company-quickhelp-mode))
 
 ;; Flycheck.
 (use-package flycheck
   :ensure t
+  :defer t
   :init (global-flycheck-mode))
 
 ;; Python mode setup with lsp.
@@ -448,10 +449,10 @@
     (push 'company-lsp company-backends)))
 
 ;; Python mode.
-(use-package python-mode)
+(use-package python-mode :defer t)
 
 ;; ein according to https://github.com/millejoh/emacs-ipython-notebook
-(use-package ein)
+(use-package ein :defer t)
 (require 'ein)
 (require 'ein-loaddefs)
 (require 'ein-notebook)
@@ -480,6 +481,7 @@
 ;; Make sure autopep8 is already installed in python side (should be
 ;; included in python-language-server[all] required by LSP.
 (use-package py-autopep8
+  :defer t
   :config
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
@@ -494,7 +496,7 @@
                             (file-name-nondirectory buffer-file-name)))))
 
 ;; Live py mode: https://github.com/donkirkby/live-py-plugin
-(use-package live-py-mode)
+(use-package live-py-mode :defer t)
 ;; Open python file, activate live-py-mode with `M-x live-py-mode`.
 
 ;; C/C++ with lsp and cquery. Follow https://github.com/cquery-project/cquery/wiki/Emacs
@@ -568,7 +570,7 @@
 (require 'sql)
 
 ;; Load w3m.
-(use-package w3m)
+(use-package w3m :defer t)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
@@ -589,13 +591,14 @@
   (add-hook 'web-mode-hook 'company-mode))
 
 ;; emmet-mode according to https://github.com/smihica/emmet-mode
-(use-package emmet-mode)
+(use-package emmet-mode :defer t)
 (add-hook 'web-mode-hook 'emmet-mode) ; Enable emmet whenever web-mode is on.
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 
 ;; LSP for html from https://github.com/emacs-lsp/lsp-html
 ;; First run in cli: npm i -g vscode-html-languageserver-bin
 (use-package lsp-html
+  :defer t
   :config
   (add-hook 'web-mode-hook #'lsp-html-enable))
 
@@ -622,6 +625,7 @@
 ;; Follow https://github.com/emacs-lsp/lsp-javascript
 ;; First run in CLI: npm i -g javascript-typescript-langserver
 (use-package lsp-javascript-typescript
+  :defer t
   :config
   (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
   (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable)
@@ -656,6 +660,7 @@
 ;;       C-c C-k   load the current buffer
 ;;       C-c C-z   skewer repl.
 (use-package skewer-mode
+  :defer t
   :config
   (add-hook 'js2-mode-hook 'skewer-mode)
   (add-hook 'css-mode-hook 'skewer-css-mode)
