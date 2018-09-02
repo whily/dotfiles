@@ -134,16 +134,7 @@
 ;; Do not indent tabs. NOTE: may break for makefile or shell scripts!
 (setq-default indent-tabs-mode nil)
 
-;; Ivy, swiper, and counsel: http://oremacs.com/swiper/
-(use-package counsel
-  :config
-  (ivy-mode 1)
-  (counsel-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "))
-
-(use-package swiper
-  :bind ("C-s" . swiper))
+(require 'init-ivy)
 
 ;; avy https://github.com/abo-abo/avy
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
