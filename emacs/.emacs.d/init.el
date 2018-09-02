@@ -519,51 +519,26 @@
                   tab-stop-list '(2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32))))
 
 ;; Use eglot for BASH.
-(use-package eglot
-  :ensure-system-package
-  (bash-language-server . "npm i -g bash-language-server")
-  :config
-  (add-hook 'sh-mode-hook 'eglot-ensure))
+;; (use-package eglot
+;;   :ensure-system-package
+;;   (bash-language-server . "npm i -g bash-language-server")
+;;   :config
+;;   (add-hook 'sh-mode-hook 'eglot-ensure))
 
 ;; Imaxima.
-(when unix?
-  (add-to-list 'load-path "/usr/local/Cellar/maxima/5.37.2/share/maxima/5.37.2/emacs")
-  (autoload 'imaxima "imaxima" "Image support for Maxima." t)
-  (setq imaxima-tex-program "/Library/TeX/texbin/latex")
-  (setq imaxima-dvips-program "/Library/TeX/texbin/dvips")
-  ;; Make Imaxima image larger
-  (setq imaxima-scale-factor 2.0))
+;; (when unix?
+;;   (add-to-list 'load-path "/usr/local/Cellar/maxima/5.37.2/share/maxima/5.37.2/emacs")
+;;   (autoload 'imaxima "imaxima" "Image support for Maxima." t)
+;;   (setq imaxima-tex-program "/Library/TeX/texbin/latex")
+;;   (setq imaxima-dvips-program "/Library/TeX/texbin/dvips")
+;;   ;; Make Imaxima image larger
+;;   (setq imaxima-scale-factor 2.0))
 
 ;; Highlight column 80.
 ;(use-package column-marker)
 ;(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-1 80)))
 
-;; Setup SLIME for SBCL.
-;; Prepareing SLIME.
-(use-package slime
-   :if unix?
-   :init
-   (setq inferior-lisp-program "sbcl")
-   (setq slime-contribs '(slime-asdf slime-fancy)))
-
-  ;; (require 'slime-autoloads)
-  ;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-  ;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-  ;; (add-to-list 'load-path (concat-dir "slime/contrib"))
-  ;; (setq slime-complete-symbol*-fancy t
-  ;;       slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-  ;;       common-lisp-hyperspec-root "file:/usr/share/doc/hyperspec/HyperSpec/"
-  ;;       slime-net-coding-system 'utf-8-unix)
-  ;; (add-hook 'slime-mode-hook
-  ;;           (lambda ()
-  ;;             (setq slime-truncate-lines nil)
-  ;;             (slime-redirect-inferior-output)))
-  ;; ;; == Normal SLIME stuff.
-  ;; (global-set-key "\C-cs" 'slime-selector)
-  ;; (global-set-key "\M-i" 'slime-fuzzy-complete-symbol)
-  ;; ;; From http://bc.tech.coop/blog/081209.html
-  ;; (global-set-key "\C-c;" 'slime-insert-balanced-comments)
-  ;; (global-set-key "\C-c\M-;" 'slime-remove-balanced-comments))
+(require 'init-slime)
 
 ;; Cider for clojure.
 ;; Install first.
@@ -687,6 +662,8 @@
   (add-hook 'web-mode-hook 'skewer-html-mode))
 
 ;;; ---- End of Web development. ----
+
+(require 'init-evil)
 
 ;;; Utility functions
 (defun toggle01 (start end)
