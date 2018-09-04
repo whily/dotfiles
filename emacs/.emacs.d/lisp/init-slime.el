@@ -3,6 +3,8 @@
 ;;; SLIME configuration for both SBCL and CCL.
 
 ;;; Code:
+(use-package slime-company :defer t)
+
 (use-package slime
    :if unix?
    :defer t
@@ -10,7 +12,9 @@
    (setq slime-lisp-implementations
          '((sbcl ("sbcl"))
            (ccl ("ccl"))))
-   (setq slime-contribs '(slime-asdf slime-fancy)))
+   (setq slime-contribs '(slime-asdf slime-fancy))
+   :config
+   (slime-setup '(slime-company)))
 
   ;; (require 'slime-autoloads)
   ;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))

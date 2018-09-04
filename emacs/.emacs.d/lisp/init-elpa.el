@@ -31,8 +31,8 @@
   (package-refresh-contents) (package-install 'use-package))
 (setq use-package-always-ensure t)
 (eval-when-compile
-  (require 'use-package))
-(require 'bind-key)
+  (require 'use-package)
+  (require 'bind-key))
 
 ;; Automatically update packages.
 (use-package auto-package-update
@@ -43,6 +43,8 @@
 
 (use-package use-package-ensure-system-package
   :ensure t)
+
+(use-package diminish :defer t)
 
 (provide 'init-elpa)
 ;;; init-elpa.el ends here

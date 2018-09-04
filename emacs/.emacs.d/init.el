@@ -4,32 +4,59 @@
 
 ;;; Code:
 
-;; Emacs load time below and at the end of the file is based on
+;; Emacs load time below and at the end of the file, as well as
+;; parameter tuning (which reduces startup time significantly)
+;; are based on
 ;;    https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (defconst emacs-start-time (current-time))
+
+(defvar file-name-handler-alist-old file-name-handler-alist)
+
+(setq package-enable-at-startup nil
+      file-name-handler-alist nil
+      message-log-max 16384
+      gc-cons-threshold 402653184
+      gc-cons-percentage 0.6
+      auto-window-vscroll nil)
+
+(add-hook 'after-init-hook
+          `(lambda ()
+             (setq file-name-handler-alist file-name-handler-alist-old
+                   gc-cons-threshold 800000
+                   gc-cons-percentage 0.1)
+             (garbage-collect)) t)
 
 ;; For debug purpose. When encoutering an EmacsLisp error, this will
 ;; pop up a BacktraceBuffer.
 (setq debug-on-error t)
 
+;;; Environment.
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;;; ----------------------- General ----------------------------
+;; VC follows the symbolic links and visits the real file, without
+;; asking for confirmation.
+(setq vc-follow-symlinks t)
+
+(require 'init-elpa)
+
+;;; Libraries.
 
 ;; As a fan of Common Lisp.
 (require 'cl)
 
-(require 'init-elpa)
+(use-package dash          :defer t)
+
+;;; ----------------------- General ----------------------------
 
 ;; Smart mode line: https://github.com/Malabarba/smart-mode-line/
 (use-package smart-mode-line
   :config
   (setq sml/no-confirm-load-theme t)
-  (setq sml/theme 'dark)
-  (sml/setup))
+  (sml/setup)
+  (sml/apply-theme 'dark))
 
 (use-package dashboard
-  :ensure
   :config
   (dashboard-setup-startup-hook))
 
@@ -99,11 +126,12 @@
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
 (use-package avy
   :config
+  (avy-setup-default)
   :bind ("C-c j" . avy-goto-word-or-subword-1))
 
 ;; Copy configuration from https://github.com/jwiegley/use-package
 (use-package color-moccur
-  :commands (isearch-moccur isearch-all)
+  :commands (isearch-moccur isearch-all isearch-moccur-all)
   :bind (("M-s O" . moccur)
          :map isearch-mode-map
          ("M-o" . isearch-moccur)
@@ -116,6 +144,11 @@
 ;; https://github.com/wasamasa/nov.el
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
+
+;; https://github.com/deb0ch/emacs-winum
+(use-package winum
+  :config
+  (winum-mode))
 
 ;; When splitting windows, prefer to split horizontally, as in
 ;; http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
@@ -356,12 +389,22 @@
 (add-hook 'lisp-mode-hook 'flyspell-prog-mode)
 
 ;; Use abbreviation mode.
-(setq-default abbrev-mode t)
-(setq abbrev-file-name "~/.emacs.d/.abbrev_defs"
-      save-abbrevs t)
+(eval-and-compile
+  (setq abbrev-file-name "~/.emacs.d/.abbrev_defs"
+        save-abbrevs t)
+  (dolist (hook '(erc-mode-hook
+                  LaTeX-mode-hook
+                  prog-mode-hook
+                  text-mode-hook))
+    (add-hook hook #'abbrev-mode))
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
 
 ;; Htmlize source code.
 (use-package htmlize :defer t)
+
+(use-package aria2
+  :commands aria2-downloads-list)
 
 ;; Regex tool.
 ;;;;;(load "regex-tool" t)
@@ -374,8 +417,6 @@
 (when unix?
   (unless (package-installed-p 'auctex)
     (package-refresh-contents) (package-install 'auctex))
-  ; Add MacTex path.
-  (setenv "PATH" (concat "/Library/TeX/texbin:" (getenv "PATH")))
   (load "auctex.el" nil t t)
   ;; It seems that following line is not needed as preview-late can work out of box.
   ;(load "preview-latex.el" nil t t)
@@ -401,13 +442,14 @@
 
 ;; Company-mode. Will add backends for corresponding languages separately.
 (use-package company
-  :ensure t
-  :defer t
-  :init (global-company-mode)
+  :defer 5
+  :diminish
+  :commands (company-mode company-indent-or-complete-common)
   :config
   (setq company-minimum-prefix-length 1)
   (setq company-dabbrev-downcase nil)
-  (setq company-idle-delay 0.5))
+  (setq company-idle-delay 0.5)
+  (global-company-mode 1))
 
 ;; https://github.com/expez/company-quickhelp
 (use-package company-quickhelp
@@ -417,7 +459,6 @@
 
 ;; Flycheck.
 (use-package flycheck
-  :ensure t
   :defer t
   :init (global-flycheck-mode))
 
@@ -434,7 +475,6 @@
 ;; It's better to also install all Python packages in the virtual environment (e.g.
 ;; numpy, scipy, matplotlib, pandas, sympy).
 (use-package lsp-mode
-  :ensure t
   :config
 
   ;; make sure we have lsp-imenu everywhere we have LSP
@@ -455,15 +495,16 @@
 
   ;; lsp extras
   (use-package lsp-ui
-    :ensure t
     :config
     (setq lsp-ui-sideline-ignore-duplicate t)
     (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  )
 
-  (use-package company-lsp
-    :config
-    (setq company-lsp-enable-snippet t)
-    (push 'company-lsp company-backends)))
+(use-package company-lsp
+  :after lsp-mode
+  :config
+  (setq company-lsp-enable-snippet t)
+  (push 'company-lsp company-backends))
 
 ;; Python mode.
 (use-package python-mode :defer t)
@@ -601,7 +642,6 @@
 
 ;; web-mode according to http://web-mode.org/
 (use-package web-mode
-  :ensure t
   :mode "\\.html?\\'"
   :mode "\\.js\\'"
   :config
