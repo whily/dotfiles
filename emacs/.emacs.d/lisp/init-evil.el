@@ -9,6 +9,7 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 (evil-leader/set-leader "<SPC>")
+(add-to-list 'evil-emacs-state-modes 'slime-trace-dialog-mode)
 
 (use-package which-key
   :config

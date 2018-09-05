@@ -56,6 +56,9 @@
   (sml/setup)
   (sml/apply-theme 'dark))
 
+;; Diminish minor modes not installed by use-package.
+(diminish 'abbrev-mode)
+
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
@@ -148,6 +151,10 @@
 ;; https://github.com/deb0ch/emacs-winum
 (use-package winum
   :config
+  (set-face-attribute 'winum-face nil
+                      :weight 'bold
+                      :foreground "magenta"
+                      :background "green")
   (winum-mode))
 
 ;; When splitting windows, prefer to split horizontally, as in
@@ -268,11 +275,10 @@
 ;; To manually mark a project folder (which is not version controlled),
 ;; create file named .projectile
 (use-package projectile
-  :demand t
-  :init   (setq projectile-use-git-grep t)
+  :defer 5
+  :diminish
   :config
-  (projectile-global-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (projectile-global-mode))
 
 ;; Zeal at point: https://github.com/jinzhu/zeal-at-point
 (use-package zeal-at-point
