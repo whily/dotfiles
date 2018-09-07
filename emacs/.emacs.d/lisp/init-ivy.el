@@ -35,5 +35,14 @@
 (use-package swiper
   :bind ("C-s" . swiper))
 
+;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package hydra
+  :defer t
+  :config
+  (defhydra hydra-zoom (global-map "<f2>")
+    "zoom"
+    ("g" text-scale-increase "in")
+    ("l" text-scale-decrease "out")))
+
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

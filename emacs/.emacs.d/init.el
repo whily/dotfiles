@@ -28,7 +28,8 @@
 
 ;; For debug purpose. When encoutering an EmacsLisp error, this will
 ;; pop up a BacktraceBuffer.
-(setq debug-on-error t)
+;; Disabled for now as it is boring.
+;;(setq debug-on-error t)
 
 ;;; Environment.
 
@@ -468,6 +469,8 @@
   :defer t
   :init (global-flycheck-mode))
 
+(require 'init-lsp)
+
 ;; Python mode setup with lsp.
 ;; Based on https://github.com/emacs-lsp/lsp-mode
 ;; Python side, I'm using Anaconda, so I creates a virtual environment and install
@@ -480,37 +483,18 @@
 ;; After activating the virtual environment, start Emacs from shell.
 ;; It's better to also install all Python packages in the virtual environment (e.g.
 ;; numpy, scipy, matplotlib, pandas, sympy).
-(use-package lsp-mode
-  :config
 
-  ;; make sure we have lsp-imenu everywhere we have LSP
-  (require 'lsp-imenu)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+(use-package lsp-python
+  :after lsp-mode
+  ;; Macro lsp-python-enable is created below.
+  :hook (python-mode-hook . lsp-python-enable)
+  :init
   ;; get lsp-python-enable defined
   ;; NB: use either projectile-project-root or ffip-get-project-root-directory
   ;;     or any other function that can be used to find the root directory of a project
   (lsp-define-stdio-client lsp-python "python"
                            #'projectile-project-root
-                           '("pyls"))
-
-  ;; make sure this is activated when python-mode is activated
-  ;; lsp-python-enable is created by macro above
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (lsp-python-enable)))
-
-  ;; lsp extras
-  (use-package lsp-ui
-    :config
-    (setq lsp-ui-sideline-ignore-duplicate t)
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-  )
-
-(use-package company-lsp
-  :after lsp-mode
-  :config
-  (setq company-lsp-enable-snippet t)
-  (push 'company-lsp company-backends))
+                           '("pyls")))
 
 ;; Python mode.
 (use-package python-mode :defer t)
