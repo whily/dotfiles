@@ -317,6 +317,13 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "markdown"))
 
+;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package markdown-preview-mode
+  :after markdown-mode
+  :config
+  (setq markdown-preview-stylesheets
+        (list (concat "https://github.com/dmarcotte/github-markdown-preview/"
+                      "blob/master/data/css/github.css"))))
 ;; Magit
 (use-package magit
   :commands magit-status magit-blame
@@ -463,6 +470,12 @@
   :defer t
   :config
   (add-hook 'company-mode-hook 'company-quickhelp-mode))
+
+(use-package company-math
+  :defer t)
+
+(use-package math-symbol-lists
+  :defer t)
 
 ;; Flycheck.
 (use-package flycheck
