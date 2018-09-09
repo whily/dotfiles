@@ -11,6 +11,8 @@
 (evil-leader/set-leader "<SPC>")
 
 (use-package which-key
+  :defer 5
+  :diminish
   :config
   (which-key-mode)
   (setq which-key-idle-delay 0.3)

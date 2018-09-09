@@ -367,10 +367,19 @@
 
 ;; Enable YASnippet.
 (use-package yasnippet
-  :defer t
+  :demand t
+  :diminish yas-minor-mode
+  :mode ("/\\.emacs\\.d/snippets/" . snippet-mode)
   :config
   (yas-global-mode 1))
 (use-package yasnippet-snippets :defer t)
+
+(use-package zoom
+  :bind ("C-x +" . zoom)
+  :preface
+  (defun size-callback ()
+    (cond ((> (frame-pixel-width) 1280) '(90 . 0.75))
+          (t '(0.5 . 0.5)))))
 
 ;; Sage whell mode.
 (unless (package-installed-p 'sage-shell-mode)
@@ -392,6 +401,10 @@
 
 ;; Add zoom for image viewer.
 (use-package image+ :defer t)
+
+(use-package smex
+  :defer 5
+  :commands smex)
 
 ;; Octave mode, from http://www.gnu.org/software/octave/doc/interpreter/Using-Octave-Mode.html
 ;; Note that in the line below, the file name is actually octave-mod, instead of octave-mode.
@@ -438,8 +451,8 @@
 (use-package aria2
   :commands aria2-downloads-list)
 
-;; Regex tool.
-;;;;;(load "regex-tool" t)
+(use-package regex-tool
+  :commands regex-tool)
 
 ;; Load template.
 ;;;;;(require 'template)
@@ -451,7 +464,7 @@
     (package-refresh-contents) (package-install 'auctex))
   (load "auctex.el" nil t t)
   ;; It seems that following line is not needed as preview-late can work out of box.
-  ;(load "preview-latex.el" nil t t)
+                                        ;(load "preview-latex.el" nil t t)
   ;; Make RefTeX to work with AUCTeX
   (setq reftex-plug-into-AUCTeX t)
   ;; For AUCTex, when hitting C-c C-c, run pdflatex instead of latex.
@@ -735,6 +748,9 @@
   :hook ((js2-mode . skewer-mode)
 	 (css-mode . skewer-css-mode)
 	 (web-mode . skewer-html-mode)))
+
+(use-package restclient
+  :mode ("\\.rest\\'" . restclient-mode))
 
 ;;; ---- End of Web development. ----
 
