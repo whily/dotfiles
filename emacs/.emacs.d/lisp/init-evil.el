@@ -1,4 +1,4 @@
-;;; init-ivy.el --- Configuration for EVIL and which-key.
+;;; init-evil.el --- Configuration for EVIL and which-key.
 ;;; Commentary:
 ;;; Many key bindings follow Spacemacs.
 

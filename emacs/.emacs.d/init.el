@@ -64,11 +64,12 @@
   :config
   (dashboard-setup-startup-hook))
 
-(use-package rainbow-mode :defer t)
+(use-package rainbow-mode
+  :commands rainbow-mode)
+
 
 (use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (require 'init-evil)
 
@@ -296,6 +297,8 @@
   (evil-leader/set-key
     "pr"       'projectile-recentf))
 
+(require 'init-paredit)
+
 ;; Zeal at point: https://github.com/jinzhu/zeal-at-point
 (use-package zeal-at-point
   :bind ("\C-cd" . zeal-at-point)
@@ -483,6 +486,7 @@
 ;; https://github.com/expez/company-quickhelp
 (use-package company-quickhelp
   :defer t
+  :after company
   :config
   (add-hook 'company-mode-hook 'company-quickhelp-mode))
 
@@ -518,7 +522,7 @@
 (use-package lsp-python
   :after lsp-mode
   ;; Macro lsp-python-enable is created below.
-  :hook (python-mode-hook . lsp-python-enable)
+  :hook (python-mode . lsp-python-enable)
   :init
   ;; get lsp-python-enable defined
   ;; NB: use either projectile-project-root or ffip-get-project-root-directory
@@ -560,9 +564,7 @@
 ;; Make sure autopep8 is already installed in python side (should be
 ;; included in python-language-server[all] required by LSP.
 (use-package py-autopep8
-  :defer t
-  :config
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
+  :hook (python-mode . py-autopep8-enable-on-save))
 
 ;; Needs to further check.
 (setq gud-pdb-command-name "python -m pdb")
@@ -587,9 +589,8 @@
 
 (use-package cquery
   :commands lsp-cquery-enable
+  :hook ((c-mode c++-mode) . cquery//enable)
   :init (setq cquery-executable "/bin/cquery"))
-(add-hook 'c-mode-hook #'cquery//enable)
-(add-hook 'c++-mode-hook #'cquery//enable)
 
 ;; For better shell mode.
 (add-hook 'sh-mode-hook
@@ -627,7 +628,7 @@
   :defer t
   ;; Configuration according to https://github.com/clojure-emacs/cider
   ;; Enable eldoc in Clojure buffer
-  :hook (cider-mode-hook . cider-turn-on-eldoc-mode)
+  :hook (cider-mode . cider-turn-on-eldoc-mode)
   :custom
   ;; Hide the *nrepl-connection* and *nrepl-server* buffers from
   ;; appearing in some buffer switching commands
@@ -669,20 +670,16 @@
 (use-package web-mode
   :mode "\\.html?\\'"
   :mode "\\.js\\'"
-  :config
-  (add-hook 'web-mode-hook 'company-mode))
+  :hook (web-mode . company-mode))
 
 ;; emmet-mode according to https://github.com/smihica/emmet-mode
-(use-package emmet-mode :defer t)
-(add-hook 'web-mode-hook 'emmet-mode) ; Enable emmet whenever web-mode is on.
-(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+(use-package emmet-mode
+  :hook (web-mode css-mode))
 
 ;; LSP for html from https://github.com/emacs-lsp/lsp-html
 ;; First run in cli: npm i -g vscode-html-languageserver-bin
 (use-package lsp-html
-  :defer t
-  :config
-  (add-hook 'web-mode-hook #'lsp-html-enable))
+  :hook (web-mode . lsp-html-enable))
 
 ;; LSP for css from https://github.com/emacs-lsp/lsp-css
 ;; First run in cli: npm i -g vscode-css-languageserver-bin
@@ -692,27 +689,20 @@
     ;; fires for scss-mode because scss-mode is derived from css-mode)
     (lsp-css-enable)))
 (use-package lsp-css
-  :config
-  (add-hook 'css-mode-hook #'my-css-mode-setup)
-  (add-hook 'less-mode-hook #'lsp-less-enable)
-  (add-hook 'sass-mode-hook #'lsp-scss-enable)
-  (add-hook 'scss-mode-hook #'lsp-scss-enable))
+  :hook  ((css-mode . my-css-mode-setup)
+          (less-mode . lsp-less-enable)
+          ((sass-mode scss-mode) . lsp-scss-enable)))
 
 ;; Javascript.
 (use-package js2-mode
   :mode "\\.js\\'"
-  :config
   ;; Better imenu
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+  :hook (js2-mode . js2-imenu-extras-mode))
+
 ;; Follow https://github.com/emacs-lsp/lsp-javascript
 ;; First run in CLI: npm i -g javascript-typescript-langserver
 (use-package lsp-javascript-typescript
-  :defer t
-  :config
-  (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
-  (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable)
-  (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable)
-  (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable))
+  :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
 
 ;; Use eslint and babel with flycheck for JS.
 ;; Based on http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html,
@@ -742,11 +732,9 @@
 ;;       C-c C-k   load the current buffer
 ;;       C-c C-z   skewer repl.
 (use-package skewer-mode
-  :defer t
-  :config
-  (add-hook 'js2-mode-hook 'skewer-mode)
-  (add-hook 'css-mode-hook 'skewer-css-mode)
-  (add-hook 'web-mode-hook 'skewer-html-mode))
+  :hook ((js2-mode . skewer-mode)
+	 (css-mode . skewer-css-mode)
+	 (web-mode . skewer-html-mode)))
 
 ;;; ---- End of Web development. ----
 
