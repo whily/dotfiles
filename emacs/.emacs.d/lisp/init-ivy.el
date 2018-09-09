@@ -28,12 +28,38 @@
   :config
   (counsel-mode 1))
 
+(evil-leader/set-key
+  "fb"       'counsel-bookmark
+  "ff"       'counsel-find-file
+  "fL"       'counsel-locate
+  "fr"       'counsel-recentf
+  "hdf"      'counsel-describe-function
+  "hdv"      'counsel-describe-variable
+  "iu"       'counsel-unicode-char
+  "ry"       'counsel-yank-pop
+  "sj"       'counsel-imenu
+  "Ts"       'counsel-load-theme
+)
+
 (use-package counsel-projectile
   :after (counsel projectile)
   :config (counsel-projectile-mode 1))
 
+(evil-leader/set-key
+  "p <SPC>"  'counsel-projectile
+  "pb"       'counsel-projectile-switch-to-buffer
+  "pd"       'counsel-projectile-find-dir
+  "pf"       'counsel-projectile-find-file
+  "pp"       'counsel-projectile-switch-project
+)
+
 (use-package swiper
   :bind ("C-s" . swiper))
+
+(evil-leader/set-key
+  "sb"       'swiper-all
+  "ss"       'swiper
+)
 
 ;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (use-package hydra

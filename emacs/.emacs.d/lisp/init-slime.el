@@ -16,6 +16,8 @@
    :config
    (slime-setup '(slime-company)))
 
+(add-to-list 'evil-emacs-state-modes 'slime-trace-dialog-mode)
+
   ;; (require 'slime-autoloads)
   ;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
   ;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))

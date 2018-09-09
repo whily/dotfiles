@@ -70,6 +70,8 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(require 'init-evil)
+
 ;; Start emacs in full screen. Note that -mm option is not available for emacsclient.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -126,6 +128,26 @@
 
 (require 'init-ivy)
 
+;; https://github.com/deb0ch/emacs-winum
+(use-package winum
+  :config
+  (set-face-attribute 'winum-face nil
+                      :weight 'bold
+                      :foreground "magenta"
+                      :background "green")
+  (winum-mode)
+  (evil-leader/set-key
+    "0"        'winum-select-window-0-or-10
+    "1"        'winum-select-window-1
+    "2"        'winum-select-window-2
+    "3"        'winum-select-window-3
+    "4"        'winum-select-window-4
+    "5"        'winum-select-window-5
+    "6"        'winum-select-window-6
+    "7"        'winum-select-window-7
+    "8"        'winum-select-window-8
+    "9"        'winum-select-window-9))
+
 ;; avy https://github.com/abo-abo/avy
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
 (use-package avy
@@ -148,15 +170,6 @@
 ;; https://github.com/wasamasa/nov.el
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
-
-;; https://github.com/deb0ch/emacs-winum
-(use-package winum
-  :config
-  (set-face-attribute 'winum-face nil
-                      :weight 'bold
-                      :foreground "magenta"
-                      :background "green")
-  (winum-mode))
 
 ;; When splitting windows, prefer to split horizontally, as in
 ;; http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
@@ -279,7 +292,9 @@
   :defer 5
   :diminish
   :config
-  (projectile-global-mode))
+  (projectile-global-mode)
+  (evil-leader/set-key
+    "pr"       'projectile-recentf))
 
 ;; Zeal at point: https://github.com/jinzhu/zeal-at-point
 (use-package zeal-at-point
@@ -480,7 +495,10 @@
 ;; Flycheck.
 (use-package flycheck
   :defer t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  (evil-leader/set-key
+    "en"       'flycheck-next-error
+    "ep"       'flycheck-previous-error))
 
 (require 'init-lsp)
 
@@ -605,23 +623,27 @@
 
 ;; Cider for clojure.
 ;; Install first.
-;(use-package cider)
-;; Configuration according to https://github.com/clojure-emacs/cider
-;; Enable eldoc in Clojure buffer
-;(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-;; Hide the *nrepl-connection* and *nrepl-server* buffers from
-;; appearing in some buffer switching commands
-;(setq nrepl-hide-special-buffers t)
-;; Prevent the auto-display of the REPL buffer in a separate window
-;; after connection is established.
-;(setq cider-repl-pop-to-buffer-on-connect nil)
-;; Stop the error buffer from popping up while working in buffers
-;; other than the REPL.
-;(setq cider-popup-stacktraces nil)
-;; Enable error buffer popping also in the REPL.
-;(setq cider-repl-popup-stacktraces t)
-;; To auto-select the error buffer when it's displayed.
-;(setq cider-auto-select-error-buffer t)
+(use-package cider
+  :defer t
+  ;; Configuration according to https://github.com/clojure-emacs/cider
+  ;; Enable eldoc in Clojure buffer
+  :hook (cider-mode-hook . cider-turn-on-eldoc-mode)
+  :custom
+  ;; Hide the *nrepl-connection* and *nrepl-server* buffers from
+  ;; appearing in some buffer switching commands
+  (nrepl-hide-special-buffers t)
+  ;; Prevent the auto-display of the REPL buffer in a separate window
+  ;; after connection is established.
+  (cider-repl-pop-to-buffer-on-connect nil)
+  ;; Stop the error buffer from popping up while working in buffers
+  ;; other than the REPL.
+  (cider-popup-stacktraces nil)
+  ;; Enable error buffer popping also in the REPL.
+  (cider-repl-popup-stacktraces t)
+  ;; To auto-select the error buffer when it's displayed.
+  (cider-auto-select-error-buffer t))
+
+(add-to-list 'evil-emacs-state-modes 'cider-docview-mode)
 
 ;; Enhanced Ruby mode: https://github.com/zenspider/enhanced-ruby-mode
 (use-package enh-ruby-mode
@@ -727,8 +749,6 @@
   (add-hook 'web-mode-hook 'skewer-html-mode))
 
 ;;; ---- End of Web development. ----
-
-(require 'init-evil)
 
 ;;; Utility functions
 (defun toggle01 (start end)

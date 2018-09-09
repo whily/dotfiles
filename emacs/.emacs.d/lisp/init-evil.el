@@ -9,7 +9,6 @@
 (global-evil-leader-mode)
 (evil-mode 1)
 (evil-leader/set-leader "<SPC>")
-(add-to-list 'evil-emacs-state-modes 'slime-trace-dialog-mode)
 
 (use-package which-key
   :config
@@ -22,47 +21,17 @@
 
 (evil-leader/set-key
   "<SPC>"    'execute-extended-command
-  "0"        'winum-select-window-0-or-10
-  "1"        'winum-select-window-1
-  "2"        'winum-select-window-2
-  "3"        'winum-select-window-3
-  "4"        'winum-select-window-4
-  "5"        'winum-select-window-5
-  "6"        'winum-select-window-6
-  "7"        'winum-select-window-7
-  "8"        'winum-select-window-8
-  "9"        'winum-select-window-9
   "bs"       'switch-to-scratch-buffer
   "bm"       'switch-to-messages-buffer
-  "en"       'flycheck-next-error
-  "ep"       'flycheck-previous-error
-  "fb"       'counsel-bookmark
   "fei"      'find-emacs-init-file
   "feR"      'reload-emacs-init-file
-  "ff"       'counsel-find-file
   "fg"       'rgrep
-  "fL"       'counsel-locate
-  "fr"       'counsel-recentf
   "fs"       'save-buffer
   "hdb"      'describe-bindings
   "hdc"      'describe-char
-  "hdf"      'counsel-describe-function
   "hdk"      'describe-key
   "hdp"      'describe-package
   "hdt"      'describe-theme
-  "hdv"      'counsel-describe-variable
-  "iu"       'counsel-unicode-char
-  "p <SPC>"  'counsel-projectile
-  "pb"       'counsel-projectile-switch-to-buffer
-  "pd"       'counsel-projectile-find-dir
-  "pf"       'counsel-projectile-find-file
-  "pp"       'counsel-projectile-switch-project
-  "pr"       'projectile-recentf
-  "ry"       'counsel-yank-pop
-  "sb"       'swiper-all
-  "sj"       'counsel-imenu
-  "ss"       'swiper
-  "Ts"       'counsel-load-theme
   "wo"       'other-frame
   "ws"       'split-window-below
   "wv"       'split-window-right
