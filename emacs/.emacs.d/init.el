@@ -646,14 +646,11 @@
 ;; Sql.
 (require 'sql)
 
-;; Load w3m.
-(use-package w3m :defer t)
-(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
-
-(setq browse-url-browser-function '(("hyperspec" . w3m-browse-url)
-                                    ("pylookup" . w3m-browse-url)
+(add-to-list 'evil-emacs-state-modes 'eww-mode)
+(setq browse-url-browser-function '(("hyperspec" . eww-browse-url)
+                                    ("pylookup" . eww-browse-url)
                                     ("." . browse-url-generic))
       browse-url-generic-program "chromium")
 
