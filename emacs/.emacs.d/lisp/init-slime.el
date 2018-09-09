@@ -3,13 +3,14 @@
 ;;; SLIME configuration for both SBCL and CCL.
 
 ;;; Code:
-(use-package slime-company 
+(use-package slime-company
   :defer t
   :after (company slime))
 
 (use-package slime
    :if unix?
    :defer t
+   :hook (lisp-mode . aggressive-indent-mode)
    :init
    (setq slime-lisp-implementations
          '((sbcl ("sbcl"))

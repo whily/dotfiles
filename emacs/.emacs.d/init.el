@@ -485,6 +485,10 @@
 
 ;;; ------------------ Programming languages ---------------------
 
+;; https://github.com/Malabarba/aggressive-indent-mode
+(use-package aggressive-indent
+  :hook ((emacs-lisp-mode css-mode) . aggressive-indent-mode))
+
 ;; Company-mode. Will add backends for corresponding languages separately.
 (use-package company
   :defer 5
@@ -634,30 +638,6 @@
 ;(add-hook 'lisp-mode-hook (lambda () (interactive) (column-marker-1 80)))
 
 (require 'init-slime)
-
-;; Cider for clojure.
-;; Install first.
-(use-package cider
-  :defer t
-  ;; Configuration according to https://github.com/clojure-emacs/cider
-  ;; Enable eldoc in Clojure buffer
-  :hook (cider-mode . cider-turn-on-eldoc-mode)
-  :custom
-  ;; Hide the *nrepl-connection* and *nrepl-server* buffers from
-  ;; appearing in some buffer switching commands
-  (nrepl-hide-special-buffers t)
-  ;; Prevent the auto-display of the REPL buffer in a separate window
-  ;; after connection is established.
-  (cider-repl-pop-to-buffer-on-connect nil)
-  ;; Stop the error buffer from popping up while working in buffers
-  ;; other than the REPL.
-  (cider-popup-stacktraces nil)
-  ;; Enable error buffer popping also in the REPL.
-  (cider-repl-popup-stacktraces t)
-  ;; To auto-select the error buffer when it's displayed.
-  (cider-auto-select-error-buffer t))
-
-(add-to-list 'evil-emacs-state-modes 'cider-docview-mode)
 
 ;; Enhanced Ruby mode: https://github.com/zenspider/enhanced-ruby-mode
 (use-package enh-ruby-mode
