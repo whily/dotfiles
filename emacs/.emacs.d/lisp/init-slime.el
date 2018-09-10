@@ -10,7 +10,10 @@
 (use-package slime
   :if unix?
   :defer t
-  :hook (lisp-mode . aggressive-indent-mode)
+  ;;:hook (lisp-mode . aggressive-indent-mode)
+  :hook ((slime-repl-mode . smartparens-strict-mode)
+         (lisp-mode . slime-mode)
+         (inferior-lisp-mode . inferior-slime-mode))
   :init
   (setq slime-lisp-implementations
         '((sbcl ("sbcl"))
@@ -19,22 +22,11 @@
   :config
   (slime-setup '(slime-company))
   (add-to-list 'evil-emacs-state-modes 'slime-trace-dialog-mode)
-  ;; Paredit configuration according to https://www.emacswiki.org/emacs/ParEdit
-  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-  ;; Stop SLIME's REPL from grabbing DEL,
-  ;; which is annoying when backspacing over a '('
-  (defun override-slime-repl-bindings-with-paredit ()
-    (define-key slime-repl-mode-map
-      (read-kbd-macro paredit-backward-delete-key) nil))
-  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
   :custom
   ;; Download HyperSpec from http://ftp.lispworks.com/pub/software_tools/reference/HyperSpec-7-0.tar.gz
   (common-lisp-hyperspec-root (concat "file://" (getenv "HOME") "/Documents/HyperSpec/")))
 
 ;; (require 'slime-autoloads)
-;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-;; (add-to-list 'load-path (concat-dir "slime/contrib"))
 ;; (setq slime-complete-symbol*-fancy t
 ;;       slime-complete-symbol-function 'slime-fuzzy-complete-symbol
 ;;       slime-net-coding-system 'utf-8-unix)

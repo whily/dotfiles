@@ -6,7 +6,7 @@
 
 ;; https://github.com/clojure-emacs/clojure-mode/
 (use-package clojure-mode
-  :hook ((clojure-mode . paredit-mode)
+  :hook ((clojure-mode . smartparens-strict-mode)
          (clojure-mode . aggressive-indent-mode)))
 
 (use-package clj-refactor

@@ -297,7 +297,7 @@
   (evil-leader/set-key
     "pr"       'projectile-recentf))
 
-(require 'init-paredit)
+(require 'init-smartparens)
 
 ;; Zeal at point: https://github.com/jinzhu/zeal-at-point
 (use-package zeal-at-point
