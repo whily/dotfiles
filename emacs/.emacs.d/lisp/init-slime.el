@@ -12,6 +12,7 @@
   :defer t
   ;;:hook (lisp-mode . aggressive-indent-mode)
   :hook ((slime-repl-mode . smartparens-strict-mode)
+         (slime-repl-mode . rainbow-delimiters-mode)
          (lisp-mode . slime-mode)
          (inferior-lisp-mode . inferior-slime-mode))
   :init

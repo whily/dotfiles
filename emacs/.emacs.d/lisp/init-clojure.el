@@ -27,7 +27,9 @@
   :defer t
   ;; Configuration according to https://github.com/clojure-emacs/cider
   ;; Enable eldoc in Clojure buffer
-  :hook (cider-mode . cider-turn-on-eldoc-mode)
+  :hook ((cider-mode . cider-turn-on-eldoc-mode)
+         (cider-mode . smartparens-strict-mode)
+         (cider-mode . rainbow-delimiters-mode))
   :custom
   ;; Hide the *nrepl-connection* and *nrepl-server* buffers from
   ;; appearing in some buffer switching commands
