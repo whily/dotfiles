@@ -23,8 +23,6 @@
   :after ivy
   :demand t
   :diminish
-  :commands counsel-git-grep
-  :bind ("C-c g" . counsel-git-grep)
   :config
   (counsel-mode 1))
 
@@ -36,10 +34,11 @@
   "hdf"      'counsel-describe-function
   "hdv"      'counsel-describe-variable
   "iu"       'counsel-unicode-char
+  "pg"       'counsel-git-grep
   "ry"       'counsel-yank-pop
   "sj"       'counsel-imenu
   "Ts"       'counsel-load-theme
-)
+  )
 
 (use-package counsel-projectile
   :after (counsel projectile)
