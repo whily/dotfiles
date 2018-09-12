@@ -34,9 +34,9 @@
   "hdf"      'counsel-describe-function
   "hdv"      'counsel-describe-variable
   "iu"       'counsel-unicode-char
+  "ji"       'counsel-imenu
   "pg"       'counsel-git-grep
   "ry"       'counsel-yank-pop
-  "sj"       'counsel-imenu
   "Ts"       'counsel-load-theme
   )
 
@@ -58,16 +58,7 @@
 (evil-leader/set-key
   "sb"       'swiper-all
   "ss"       'swiper
-)
-
-;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
-(use-package hydra
-  :defer t
-  :config
-  (defhydra hydra-zoom (global-map "<f2>")
-    "zoom"
-    ("g" text-scale-increase "in")
-    ("l" text-scale-decrease "out")))
+  )
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

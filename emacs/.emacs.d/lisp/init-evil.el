@@ -16,10 +16,7 @@
   :config
   (which-key-mode)
   (setq which-key-idle-delay 0.3)
-  ;; Group key bindings for winum.
-  (push '(("\\(.*\\) 0" . "winum-select-window-0-or-10") . ("\\1 0..9" . "winum-window 0..9-or-10"))
-        which-key-replacement-alist)
-  (push '((nil . "winum-select-window-[1-9]") . t) which-key-replacement-alist))
+  )
 
 (evil-leader/set-key
   "<SPC>"    'execute-extended-command
@@ -41,23 +38,25 @@
 )
 
 (which-key-add-key-based-replacements
- "<SPC> a"   "applications"
- "<SPC> a i" "irc"
- "<SPC> a s" "shells"
- "<SPC> b"   "buffers"
- "<SPC> c"   "compile/comments"
- "<SPC> e"   "errors"
- "<SPC> f"   "files"
- "<SPC> f e" "emacs"
- "<SPC> g"   "git/version-control"
- "<SPC> h"   "help"
- "<SPC> h d" "help-describe"
- "<SPC> i"   "insertion"
- "<SPC> p"   "projects"
- "<SPC> r"   "registers/rings/resume"
- "<SPC> s"   "search/symbol"
- "<SPC> T"   "themes"
- "<SPC> w"   "windows")
+  "<SPC> a"   "applications"
+  "<SPC> a i" "irc"
+  "<SPC> a s" "shells"
+  "<SPC> b"   "buffers"
+  "<SPC> c"   "compile/comments"
+  "<SPC> e"   "errors"
+  "<SPC> f"   "files"
+  "<SPC> f e" "emacs"
+  "<SPC> g"   "git/version-control"
+  "<SPC> h"   "help"
+  "<SPC> h d" "help-describe"
+  "<SPC> i"   "insertion"
+  "<SPC> j"   "jump/join/split"
+  "<SPC> l"   "lisp"
+  "<SPC> p"   "projects"
+  "<SPC> r"   "registers/rings/resume"
+  "<SPC> s"   "search/symbol"
+  "<SPC> T"   "themes"
+  "<SPC> w"   "windows")
 
 (defun find-emacs-init-file ()
   "Edit Emacs init.el in the current window."

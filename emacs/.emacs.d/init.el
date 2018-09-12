@@ -129,6 +129,15 @@
 
 (require 'init-ivy)
 
+;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package hydra
+  :defer t
+  :config
+  (defhydra hydra-zoom (global-map "<f2>")
+    "zoom"
+    ("g" text-scale-increase "in")
+    ("l" text-scale-decrease "out")))
+
 ;; https://github.com/deb0ch/emacs-winum
 (use-package winum
   :config
@@ -147,14 +156,26 @@
     "6"        'winum-select-window-6
     "7"        'winum-select-window-7
     "8"        'winum-select-window-8
-    "9"        'winum-select-window-9))
+    "9"        'winum-select-window-9)
+  ;; Group key bindings for winum.
+  (push '(("\\(.*\\) 0" . "winum-select-window-0-or-10") . ("\\1 0..9" . "winum-window 0..9-or-10"))
+        which-key-replacement-alist)
+  (push '((nil . "winum-select-window-[1-9]") . t) which-key-replacement-alist)
+  )
 
 ;; avy https://github.com/abo-abo/avy
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
 (use-package avy
+  :commands (avy-goto-char avy-goto-line avy-goto-word-or-subword-1)
   :config
-  (avy-setup-default)
-  :bind ("C-c j" . avy-goto-word-or-subword-1))
+  (avy-setup-default))
+
+(evil-leader/set-key
+  "jj" 'avy-goto-char
+  "jJ" 'avy-goto-char-2
+  "jl" 'avy-goto-line
+  "jw" 'avy-goto-word-or-subword-1)
+(push '((nil . "avy-goto-word-or-subword-1") . (nil . "avy-goto-word*")) which-key-replacement-alist)
 
 ;; Copy configuration from https://github.com/jwiegley/use-package
 (use-package color-moccur
