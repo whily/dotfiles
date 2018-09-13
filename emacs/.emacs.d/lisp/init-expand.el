@@ -19,6 +19,12 @@
 
 ;; Switch from Dabbrev to Hippie Expand.
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
 
 ;; Enable YASnippet.
 (use-package yasnippet

@@ -186,6 +186,14 @@
   :config
   (use-package moccur-edit))
 
+;; Multiple majore modes.
+(use-package mmm-mode
+  :defer t
+  :custom
+  (mmm-global-mode 'buffers-with-submode-classes)
+  (mmm-submode-decoration-level 2)
+  )
+
 ;; https://github.com/wasamasa/nov.el
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
@@ -297,7 +305,7 @@
 (setq transient-mark-mode t)
 
 ;; Disable Electric Indent mode.
-(electric-indent-mode 0)
+;;(electric-indent-mode 0)
 
 ;; Setup Ediff to use one frame only, which is useful for Stumpwm.
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -322,7 +330,6 @@
   :bind ("\C-cd" . zeal-at-point)
   :config
   (add-to-list 'zeal-at-point-mode-alist '(java-mode . "java"))
-  (add-to-list 'zeal-at-point-mode-alist '(python-mode . "python"))
   (add-to-list 'zeal-at-point-mode-alist '(scala-mode . ("scala" "java"))))
 
 ;; Turn on auto fill mode for text.
@@ -483,6 +490,13 @@
               (toggle-pdflatex))))
 
 ;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
+;; There is a work around regarding the compilation error when running `M-x pdf-tools-install`
+;; since v0.80 does not contain the master changes. See
+;;    https://github.com/politza/pdf-tools/issues/372
+;; The work around is to git clone the latest version, and copy server/poppler-hack.cc to
+;; ~/.emacs.d/elpa/pdf-tools-0.80/build.
+;; However, PDF viewer program does not work for now (Emacs just hangs).
+;; TODO: further check.
 (use-package pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :config
@@ -533,80 +547,7 @@
     "ep"       'flycheck-previous-error))
 
 (require 'init-lsp)
-
-;; Python mode setup with lsp.
-;; Based on https://github.com/emacs-lsp/lsp-mode
-;; Python side, I'm using Anaconda, so I creates a virtual environment and install
-;; related packges.
-;;    conda create -n py3.6 python=3.6
-;;    conda install -n py3.6 pip
-;;    source activate py3.6
-;;    pip install --upgrade pip
-;;    pip install 'python-language-server[all]'
-;; After activating the virtual environment, start Emacs from shell.
-;; It's better to also install all Python packages in the virtual environment (e.g.
-;; numpy, scipy, matplotlib, pandas, sympy).
-
-(use-package lsp-python
-  :after lsp-mode
-  ;; Macro lsp-python-enable is created below.
-  :hook (python-mode . lsp-python-enable)
-  :init
-  ;; get lsp-python-enable defined
-  ;; NB: use either projectile-project-root or ffip-get-project-root-directory
-  ;;     or any other function that can be used to find the root directory of a project
-  (lsp-define-stdio-client lsp-python "python"
-                           #'projectile-project-root
-                           '("pyls")))
-
-;; Python mode.
-(use-package python-mode :defer t)
-
-;; ein according to https://github.com/millejoh/emacs-ipython-notebook
-(use-package ein :defer t)
-(require 'ein)
-(require 'ein-loaddefs)
-(require 'ein-notebook)
-(require 'ein-subpackages)
-(setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"
-      ein:jupyter-default-notebook-directory "~/tutorial/pytorch")
-;; Start the server with `M-x ein:jupyter-server-start`.
-;; Increase image size on HiDPI screen. From https://github.com/syl20bnr/spacemacs/issues/8770
-(defun create-image-2x (oldfun file-or-data &optional type data-p &rest props)
-  (let ((original (apply oldfun (append (list file-or-data type data-p) props))))
-    (if (memq type '(xpm xbm pbm imagemagick)) ;not sure about xbm,pbm,imagemagick
-        original
-      (let* ((width-height (image-size original t))
-             (width (car width-height))
-             (height (cdr width-height))
-             (width-2x (* 2 width))
-             (height-2x (* 2 height))
-             (newprops (plist-put props :format type))
-             (newprops (plist-put newprops :width width-2x))
-             (newprops (plist-put newprops :height height-2x))
-             (newargs (append (list file-or-data 'imagemagick data-p) newprops)))
-        (apply oldfun newargs)))))
-(advice-add 'create-image :around #'create-image-2x)
-
-;; py-autopep8 from https://github.com/paetzke/py-autopep8.el
-;; Make sure autopep8 is already installed in python side (should be
-;; included in python-language-server[all] required by LSP.
-(use-package py-autopep8
-  :hook (python-mode . py-autopep8-enable-on-save))
-
-;; Needs to further check.
-(setq gud-pdb-command-name "python -m pdb")
-(setq pdb-path '/usr/lib/python3.2/pdb.py
-      gud-pdb-command-name (symbol-name pdb-path))
-(defadvice pdb (before gud-query-cmdline activate)
-  "Provide a better default command line when called interactively."
-  (interactive
-   (list (gud-query-cmdline pdb-path
-                            (file-name-nondirectory buffer-file-name)))))
-
-;; Live py mode: https://github.com/donkirkby/live-py-plugin
-(use-package live-py-mode :defer t)
-;; Open python file, activate live-py-mode with `M-x live-py-mode`.
+(require 'init-python)
 
 ;; https://github.com/skeeto/x86-lookup
 (use-package x86-lookup
@@ -674,82 +615,7 @@
                                     ("." . browse-url-generic))
       browse-url-generic-program "chromium")
 
-;;; ---- Start of Web development. ----
-
-;; web-mode according to http://web-mode.org/
-(use-package web-mode
-  :mode "\\.html?\\'"
-  :mode "\\.js\\'"
-  :hook (web-mode . company-mode))
-
-;; emmet-mode according to https://github.com/smihica/emmet-mode
-(use-package emmet-mode
-  :hook (web-mode css-mode))
-
-;; LSP for html from https://github.com/emacs-lsp/lsp-html
-;; First run in cli: npm i -g vscode-html-languageserver-bin
-(use-package lsp-html
-  :hook (web-mode . lsp-html-enable))
-
-;; LSP for css from https://github.com/emacs-lsp/lsp-css
-;; First run in cli: npm i -g vscode-css-languageserver-bin
-(defun my-css-mode-setup ()
-  (when (eq major-mode 'css-mode)
-    ;; Only enable in strictly css-mode, not scss-mode (css-mode-hook
-    ;; fires for scss-mode because scss-mode is derived from css-mode)
-    (lsp-css-enable)))
-(use-package lsp-css
-  :hook  ((css-mode . my-css-mode-setup)
-          (less-mode . lsp-less-enable)
-          ((sass-mode scss-mode) . lsp-scss-enable)))
-
-;; Javascript.
-(use-package js2-mode
-  :mode "\\.js\\'"
-  ;; Better imenu
-  :hook (js2-mode . js2-imenu-extras-mode))
-
-;; Follow https://github.com/emacs-lsp/lsp-javascript
-;; First run in CLI: npm i -g javascript-typescript-langserver
-(use-package lsp-javascript-typescript
-  :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
-
-;; Use eslint and babel with flycheck for JS.
-;; Based on http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html,
-;; but removing configurations with React.js JSX.
-;; In CLI: npm install -g eslint babel-eslint
-;; Run `eslint -v` and make sure babel version is 5.x.
-;; Edit `~/.eslintrc` for configuraton.
-;; Disable jshint since we prefer eslint checking.
-(setq-default flycheck-disabled-checkers
-              (append flycheck-disabled-checkers
-                      '(javascript-jshint)))
-;; Disable json-jsonlist checking for json files.
-(setq-default flycheck-disabled-checkers
-              (append flycheck-disabled-checkers
-                      '(json-jsonlist)))
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-(flycheck-add-mode 'javascript-eslint 'js2-mode)
-;; Use `C-c ! v` to check flycheck status whether eslint is enabled.
-;; Install jsonlint by `npm i -g jsonlint`.
-
-;; Skewer mode according to https://github.com/skeeto/skewer-mode
-;; To run skewer,
-;;    1. M-x run-skewer to attach a browser to Emacs
-;;    2. From a js2-mode buffer with skewer-mode minor mode enabled,
-;;    send forms for evaluation (in both Emacs and browser).
-;;       C-x C-e   evaluate the form at the point.
-;;       C-c C-k   load the current buffer
-;;       C-c C-z   skewer repl.
-(use-package skewer-mode
-  :hook ((js2-mode . skewer-mode)
-	 (css-mode . skewer-css-mode)
-	 (web-mode . skewer-html-mode)))
-
-(use-package restclient
-  :mode ("\\.rest\\'" . restclient-mode))
-
-;;; ---- End of Web development. ----
+(require 'init-webdev)
 
 ;;; Utility functions
 (defun toggle01 (start end)
