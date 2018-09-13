@@ -1,4 +1,4 @@
-;;; enit-clojure.el --- Configuration for clojure.
+;;; init-clojure.el --- Configuration for clojure.
 ;;; Commentary:
 ;;; Clojure configuration.
 

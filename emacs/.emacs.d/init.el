@@ -57,9 +57,6 @@
   (sml/setup)
   (sml/apply-theme 'dark))
 
-;; Diminish minor modes not installed by use-package.
-(diminish 'abbrev-mode)
-
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
@@ -386,14 +383,7 @@
 (use-package keychain-environment)
 (keychain-refresh-environment)
 
-;; Enable YASnippet.
-(use-package yasnippet
-  :demand t
-  :diminish yas-minor-mode
-  :mode ("/\\.emacs\\.d/snippets/" . snippet-mode)
-  :config
-  (yas-global-mode 1))
-(use-package yasnippet-snippets :defer t)
+(require 'init-expand)
 
 (use-package zoom
   :bind ("C-x +" . zoom)
@@ -454,18 +444,6 @@
 ;; Spell check spelling in comments.
 (add-hook 'lisp-mode-hook 'flyspell-prog-mode)
 
-;; Use abbreviation mode.
-(eval-and-compile
-  (setq abbrev-file-name "~/.emacs.d/.abbrev_defs"
-        save-abbrevs t)
-  (dolist (hook '(erc-mode-hook
-                  LaTeX-mode-hook
-                  prog-mode-hook
-                  text-mode-hook))
-    (add-hook hook #'abbrev-mode))
-  (if (file-exists-p abbrev-file-name)
-      (quietly-read-abbrev-file)))
-
 ;; Htmlize source code.
 (use-package htmlize :defer t)
 
@@ -503,6 +481,18 @@
             (lambda ()
               (outline-minor-mode 1)
               (toggle-pdflatex))))
+
+;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package pdf-tools
+  :magic ("%PDF" . pdf-view-mode)
+  :config
+  (dolist
+      (pkg
+       '(pdf-annot pdf-cache pdf-dev pdf-history pdf-info pdf-isearch
+                   pdf-links pdf-misc pdf-occur pdf-outline pdf-sync
+                   pdf-util pdf-view pdf-virtual))
+    (require pkg))
+  (pdf-tools-install))
 
 ;;; ------------------ Programming languages ---------------------
 
@@ -617,6 +607,15 @@
 ;; Live py mode: https://github.com/donkirkby/live-py-plugin
 (use-package live-py-mode :defer t)
 ;; Open python file, activate live-py-mode with `M-x live-py-mode`.
+
+;; https://github.com/skeeto/x86-lookup
+(use-package x86-lookup
+  :commands x86-lookup
+  :custom
+  (x86-lookup-pdf "~/Documents/x86-manual/325383-sdm-vol-2abcd.pdf"))
+
+(evil-leader/set-key
+  "hX"   'x86-lookup)
 
 ;; C/C++ with lsp and cquery. Follow https://github.com/cquery-project/cquery/wiki/Emacs
 ;; First install AUR package cquery-git.
