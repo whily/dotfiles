@@ -304,9 +304,6 @@
 ;; Highlight selected region.
 (setq transient-mark-mode t)
 
-;; Disable Electric Indent mode.
-;;(electric-indent-mode 0)
-
 ;; Setup Ediff to use one frame only, which is useful for Stumpwm.
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
@@ -449,7 +446,7 @@
 ;; Disable issuing messages when checking buffer.
 (setq flyspell-issue-message-flag nil)
 ;; Spell check spelling in comments.
-(add-hook 'lisp-mode-hook 'flyspell-prog-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; Htmlize source code.
 (use-package htmlize :defer t)
@@ -479,6 +476,9 @@
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq-default TeX-master nil)
+  ;; Configure flyspell for Tex mode.
+  (add-hook 'tex-mode-hook
+            #'(lambda () (setq ispell-parser 'tex)))
   (defun toggle-pdflatex ()
     "Toggle LaTeX processing with PDF or not."
     (interactive)
