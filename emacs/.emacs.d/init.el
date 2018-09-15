@@ -26,7 +26,7 @@
                    gc-cons-percentage 0.1)
              (garbage-collect)) t)
 
-;; For debug purpose. When encoutering an EmacsLisp error, this will
+;; For debug purpose. When encoutering an Emacs Lisp error, this will
 ;; pop up a BacktraceBuffer.
 ;; Disabled for now as it is boring.
 ;;(setq debug-on-error t)
@@ -490,14 +490,10 @@
               (toggle-pdflatex))))
 
 ;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
-;; There is a work around regarding the compilation error when running `M-x pdf-tools-install`
-;; since v0.80 does not contain the master changes. See
-;;    https://github.com/politza/pdf-tools/issues/372
-;; The work around is to git clone the latest version, and copy server/poppler-hack.cc to
-;; ~/.emacs.d/elpa/pdf-tools-0.80/build.
-;; However, PDF viewer program does not work for now (Emacs just hangs).
-;; TODO: further check.
 (use-package pdf-tools
+  ;; Disabled due to the issue below not in latest stable version (0.80)
+  ;;   https://github.com/politza/pdf-tools/issues/372
+  :disabled t
   :magic ("%PDF" . pdf-view-mode)
   :config
   (dolist
