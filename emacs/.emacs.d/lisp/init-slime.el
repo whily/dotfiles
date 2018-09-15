@@ -10,7 +10,7 @@
 (use-package slime
   :if unix?
   :defer t
-  ;;:hook (lisp-mode . aggressive-indent-mode)
+  :hook (lisp-mode . aggressive-indent-mode)
   :hook ((slime-repl-mode . smartparens-strict-mode)
          (slime-repl-mode . rainbow-delimiters-mode)
          (lisp-mode . slime-mode)
