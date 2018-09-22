@@ -50,6 +50,13 @@
 
 ;;; ----------------------- General ----------------------------
 
+;; https://github.com/purcell/exec-path-from-shell
+(use-package exec-path-from-shell
+  :demand t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 ;; Smart mode line: https://github.com/Malabarba/smart-mode-line/
 (use-package smart-mode-line
   :config
