@@ -24,6 +24,11 @@
 (use-package lsp-html
   :hook (web-mode . lsp-html-enable))
 
+;; https://github.com/osv/company-web
+(use-package company-web
+  :config
+  (define-key web-mode-map (kbd "C-'") 'company-web-html))
+
 ;; LSP for css from https://github.com/emacs-lsp/lsp-css
 ;; First run in cli: npm i -g vscode-css-languageserver-bin
 (defun my-css-mode-setup ()
