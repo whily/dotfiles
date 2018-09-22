@@ -615,14 +615,6 @@
 ;; Sql.
 (require 'sql)
 
-;; optional keyboard short-cut
-(global-set-key "\C-xm" 'browse-url-at-point)
-(add-to-list 'evil-emacs-state-modes 'eww-mode)
-(setq browse-url-browser-function '(("hyperspec" . eww-browse-url)
-                                    ("pylookup" . eww-browse-url)
-                                    ("." . browse-url-generic))
-      browse-url-generic-program "chromium")
-
 (require 'init-webdev)
 
 ;;; Utility functions

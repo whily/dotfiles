@@ -29,10 +29,12 @@
 ;; Enable YASnippet.
 (use-package yasnippet
   :demand t
-  :diminish yas-minor-mode
+  ;;:diminish yas-minor-mode
   :mode ("/\\.emacs\\.d/snippets/" . snippet-mode)
-  :config
-  (yas-global-mode 1))
+  :bind (:map yas-minor-mode-map
+              ("TAB" . yas-expand))
+  :hook ((prog-mode . yas-minor-mode)))
+
 (use-package yasnippet-snippets :defer t)
 
 (provide 'init-expand)

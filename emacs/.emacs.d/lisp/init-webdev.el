@@ -10,6 +10,8 @@
   :mode "\\.css\\'"
   :mode "\\.js\\'"
   :hook (web-mode . company-mode)
+  :bind (:map web-mode-map
+              ("C-c C-v" . browse-url-of-buffer))
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
@@ -26,8 +28,8 @@
 
 ;; https://github.com/osv/company-web
 (use-package company-web
-  :config
-  (define-key web-mode-map (kbd "C-'") 'company-web-html))
+  :bind (:map web-mode-map
+              ("C-'" . company-web-html)))
 
 ;; LSP for css from https://github.com/emacs-lsp/lsp-css
 ;; First run in cli: npm i -g vscode-css-languageserver-bin
@@ -129,6 +131,14 @@
 
 (use-package restclient
   :mode ("\\.rest\\'" . restclient-mode))
+
+(global-set-key "\C-xm" 'browse-url-at-point)
+(add-to-list 'evil-emacs-state-modes 'eww-mode)
+(setq browse-url-browser-function '(("hyperspec" . eww-browse-url)
+                                    ("pylookup" . eww-browse-url)
+                                    ("test" . eww-browse-url)
+                                    ("." . browse-url-generic))
+      browse-url-generic-program "chromium")
 
 (provide 'init-webdev)
 ;;; init-webdev.el ends here
