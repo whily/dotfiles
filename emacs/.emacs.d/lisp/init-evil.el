@@ -22,6 +22,9 @@
   "<SPC>"    'execute-extended-command
   "bs"       'switch-to-scratch-buffer
   "bm"       'switch-to-messages-buffer
+  "cC"       'compile
+  "ck"       'kill-compilation
+  "cr"       'recompile
   "fei"      'find-emacs-init-file
   "feR"      'reload-emacs-init-file
   "fg"       'rgrep
@@ -35,7 +38,7 @@
   "ws"       'split-window-below
   "wv"       'split-window-right
   "w="       'balance-windows
-)
+  )
 
 (which-key-add-key-based-replacements
   "<SPC> a"   "applications"
