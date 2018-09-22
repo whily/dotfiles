@@ -14,9 +14,9 @@
         ("melpa" .        "http://elpa.emacs-china.org/melpa/")
         ("org"          . "https://orgmode.org/elpa/"))
       package-archive-priorities
-      '(("melpa-stable" . 10)
+      '(("melpa-stable" . 8)
         ("gnu-elpa"     . 4)
-        ("melpa"        . 2)
+        ("melpa"        . 10)
         ("org"          . 1)))
 (package-initialize)
 (when (not package-archive-contents)
