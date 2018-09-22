@@ -186,6 +186,13 @@
   :config
   (use-package moccur-edit))
 
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)))
+
 ;; Multiple majore modes.
 (use-package mmm-mode
   :defer t
@@ -491,9 +498,7 @@
 
 ;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (use-package pdf-tools
-  ;; Disabled due to the issue below not in latest stable version (0.80)
-  ;;   https://github.com/politza/pdf-tools/issues/372
-  :disabled t
+  ;; Compilation is OK, but hangs Emacs whenever invoked.
   :magic ("%PDF" . pdf-view-mode)
   :config
   (dolist
