@@ -15,7 +15,10 @@
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2))
+  (web-mode-code-indent-offset 2)
+  (web-mode-enable-current-column-highlight t)
+  (web-mode-enable-current-element-highlight t)
+  )
 
 ;; emmet-mode according to https://github.com/smihica/emmet-mode
 (use-package emmet-mode
@@ -43,38 +46,20 @@
           (less-mode . lsp-less-enable)
           ((sass-mode scss-mode) . lsp-scss-enable)))
 
-;;; Following CSS configuration (before js2-mode) is based on
-;;;   https://github.com/purcell/emacs.d/blob/master/lisp/init-css.el
-
-;;; Colourise CSS colour literals
+;; Colourise CSS colour literals
 (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
   (add-hook hook 'rainbow-mode))
 
-;;; Embedding in html
-(with-eval-after-load 'mmm-vars
-  (mmm-add-group
-   'html-css
-   '((css-cdata
-      :submode css-mode
-      :face mmm-code-submode-face
-      :front "<style[^>]*>[ \t\n]*\\(//\\)?<!\\[CDATA\\[[ \t]*\n?"
-      :back "[ \t]*\\(//\\)?]]>[ \t\n]*</style>"
-      :insert ((?j js-tag nil @ "<style type=\"text/css\">"
-                   @ "\n" _ "\n" @ "</style>" @)))
-     (css
-      :submode css-mode
-      :face mmm-code-submode-face
-      :front "<style[^>]*>[ \t]*\n?"
-      :back "[ \t]*</style>"
-      :insert ((?j js-tag nil @ "<style type=\"text/css\">"
-                   @ "\n" _ "\n" @ "</style>" @)))
-     (css-inline
-      :submode css-mode
-      :face mmm-code-submode-face
-      :front "style=\""
-      :back "\"")))
-  (dolist (mode (list 'html-mode 'nxml-mode))
-    (mmm-add-mode-ext-class mode "\\.r?html\\(\\.erb\\)?\\'" 'html-css)))
+;; Let Emmet aware of embedded CSS
+;; TODO: only enable the hook when emmet-mode or web-mode is active,
+;; but using hook web-mode-before-auto-complete-hook as from http://web-mode.org/ does not work.
+;; On the other hand, post-command-hook might be expensive.
+;; Also need to remove the hook.
+(add-hook 'post-command-hook
+          '(lambda ()
+             (when (boundp 'emmet-mode)
+               (setq emmet-use-css-transform
+                     (string= (web-mode-language-at-pos) "css")))))
 
 ;;; TODO: further configure SASS, SCSS, LESS, skewer-less, if needed.
 
