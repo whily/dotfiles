@@ -57,17 +57,7 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-;; https://github.com/tarsius/moody
-(use-package moody
-  :config
-  (setq x-underline-at-descent-line t)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
-
-;; https://github.com/tarsius/minions
-(use-package minions
-  :config
-  (minions-mode 1))
+(require 'init-mode-line)
 
 (use-package rainbow-mode
   :commands rainbow-mode)
