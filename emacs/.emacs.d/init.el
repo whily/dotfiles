@@ -57,20 +57,20 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-;; Smart mode line: https://github.com/Malabarba/smart-mode-line/
-(use-package smart-mode-line
+;; https://github.com/tarsius/moody
+(use-package moody
   :config
-  (setq sml/no-confirm-load-theme t)
-  (sml/setup)
-  (sml/apply-theme 'dark))
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
 
-(use-package dashboard
+;; https://github.com/tarsius/minions
+(use-package minions
   :config
-  (dashboard-setup-startup-hook))
+  (minions-mode 1))
 
 (use-package rainbow-mode
   :commands rainbow-mode)
-
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -119,8 +119,16 @@
 ;  (load-theme 'material t))
 (use-package dracula-theme
   :config
-  (load-theme 'dracula t))
-;(load-theme 'solarized-dark t)
+  (load-theme 'dracula t)
+  ;; According to https://github.com/tarsius/moody
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+;; (load-theme 'solarized-dark t)
 
 ;; Enable line numbers globally
 (global-linum-mode t)
