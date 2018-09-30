@@ -215,6 +215,14 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 40)
 
+;; https://github.com/wasamasa/shackle
+(use-package shackle
+  :defer t
+  :config
+  (shacket-mode)
+  :custom
+  (shackle-rules '((ivy-occur-grep-mode :select t :align 'below :size 0.3))))
+
 ;; Setup Emacs to run bash as its primary shell.
 (setq shell-file-name "bash")
 (setq shell-command-switch "-c")
