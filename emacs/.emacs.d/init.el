@@ -103,22 +103,7 @@
 ;; Single space ends a sentence (relevant for filling).
 (setq sentence-end-double-space nil)
 
-;; Load material theme
-;(use-package material-theme
-;  :config
-;  (load-theme 'material t))
-(use-package dracula-theme
-  :config
-  (load-theme 'dracula t)
-  ;; According to https://github.com/tarsius/moody
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
-;; (load-theme 'solarized-dark t)
+(require 'init-theme)
 
 ;; Enable line numbers globally
 (global-linum-mode t)
