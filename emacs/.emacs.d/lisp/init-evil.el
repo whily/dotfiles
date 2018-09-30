@@ -4,7 +4,10 @@
 
 ;;; Code:
 
-(use-package evil)
+(use-package evil
+  :config
+  (evil-set-initial-state 'Info-mode 'emacs))
+
 (use-package evil-leader)
 (global-evil-leader-mode)
 (evil-mode 1)

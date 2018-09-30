@@ -1,4 +1,4 @@
-;;; init-expand.el --- Configuration for mode line.
+;;; init-mode-line.el --- Configuration for mode line.
 ;;; Commentary:
 ;;; Configuration for moody + minions.
 

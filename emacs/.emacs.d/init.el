@@ -60,7 +60,8 @@
 (require 'init-mode-line)
 
 (use-package rainbow-mode
-  :commands rainbow-mode)
+  :commands rainbow-mode
+  :hook (emacs-lisp-mode . rainbow-mode))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -154,6 +155,7 @@
 ;; Maybe try https://github.com/tam17aki/ace-isearch ?
 (use-package avy
   :commands (avy-goto-char avy-goto-line avy-goto-word-or-subword-1)
+  :bind ("C-'" . 'avy-goto-word-or-subword-1)
   :config
   (avy-setup-default))
 
