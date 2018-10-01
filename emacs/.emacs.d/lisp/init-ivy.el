@@ -50,7 +50,8 @@
   "pd"       'counsel-projectile-find-dir
   "pf"       'counsel-projectile-find-file
   "pp"       'counsel-projectile-switch-project
-)
+  "pR"       'counsel-projectile-rg
+  )
 
 (use-package swiper
   :bind ("C-s" . swiper))

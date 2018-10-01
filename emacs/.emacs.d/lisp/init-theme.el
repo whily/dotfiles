@@ -5,11 +5,11 @@
 
 ;;; Code:
 
-(use-package material-theme)
-(use-package atom-one-dark-theme)
-(use-package monokai-theme)
-(use-package zenburn-theme)
-(use-package color-theme-sanityinc-tomorrow)
+(use-package material-theme                 :defer t)
+(use-package atom-one-dark-theme            :defer t)
+(use-package monokai-theme                  :defer t)
+(use-package zenburn-theme                  :defer t)
+(use-package color-theme-sanityinc-tomorrow :defer t)
 (use-package solarized-theme)
 ;; Put dracula at the end to make it the default theme loaded.
 (use-package dracula-theme
