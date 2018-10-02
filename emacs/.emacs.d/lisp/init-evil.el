@@ -23,6 +23,7 @@
 
 (evil-leader/set-key
   "<SPC>"    'execute-extended-command
+  "ad"       'dired
   "bs"       'switch-to-scratch-buffer
   "bm"       'switch-to-messages-buffer
   "cC"       'compile
@@ -36,6 +37,8 @@
   "hdc"      'describe-char
   "hdk"      'describe-key
   "hdp"      'describe-package
+  "jd"       'dired-jump
+  "jD"       'dired-jump-other-window
   "hdt"      'describe-theme
   "wo"       'other-frame
   "ws"       'split-window-below
