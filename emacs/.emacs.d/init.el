@@ -536,6 +536,19 @@
 (use-package math-symbol-lists
   :defer t)
 
+;; https://github.com/wasamasa/eyebrowse
+;; Keys for evil mode:
+;;   gT	Switch to previous window config
+;;   gt	Switch to next window config
+;;   zx	Switch to last window config
+;;   gc	Close current window config
+;; `C-c C-w 2' to create and switch to 2nd window config.
+;; `C-c C-w ,` to tag the window config.
+(use-package eyebrowse
+  :config
+  (eyebrowse-setup-evil-keys)
+  (eyebrowse-mode t))
+
 ;; Flycheck.
 (use-package flycheck
   :defer t
