@@ -461,9 +461,6 @@
 (use-package aria2
   :commands aria2-downloads-list)
 
-(use-package regex-tool
-  :commands regex-tool)
-
 ;; Load template.
 ;;;;;(require 'template)
 
