@@ -43,9 +43,6 @@
 
 ;;; Libraries.
 
-;; As a fan of Common Lisp.
-(require 'cl)
-
 (use-package dash          :defer t)
 
 ;;; ----------------------- General ----------------------------
