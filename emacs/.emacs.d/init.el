@@ -34,6 +34,7 @@
 ;;; Environment.
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "download" user-emacs-directory))
 
 ;; VC follows the symbolic links and visits the real file, without
 ;; asking for confirmation.
@@ -520,6 +521,7 @@
 
 (require 'init-lsp)
 (require 'init-python)
+(require 'init-scala)
 
 ;; https://github.com/skeeto/x86-lookup
 (use-package x86-lookup
