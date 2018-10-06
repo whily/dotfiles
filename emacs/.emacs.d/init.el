@@ -522,6 +522,7 @@
 (require 'init-lsp)
 (require 'init-python)
 (require 'init-scala)
+(require 'init-kotlin)
 
 ;; https://github.com/skeeto/x86-lookup
 (use-package x86-lookup
