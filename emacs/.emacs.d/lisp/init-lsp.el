@@ -21,6 +21,7 @@
   :after lsp-mode
   :config
   (setq company-lsp-enable-snippet t)
+  (setq company-lsp-cache-candidates t)
   (push 'company-lsp company-backends))
 
 (provide 'init-lsp)

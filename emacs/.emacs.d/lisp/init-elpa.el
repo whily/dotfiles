@@ -39,6 +39,7 @@
   :config
   (setq auto-package-update-delete-old-versions t)
   (setq auto-package-update-hide-results t)
+  (setq auto-package-update-interval 28)
   (auto-package-update-maybe))
 
 (use-package use-package-ensure-system-package

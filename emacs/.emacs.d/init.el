@@ -69,6 +69,11 @@
 ;; Start emacs in full screen. Note that -mm option is not available for emacsclient.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; https://github.com/jschaf/esup
+;; TODO: error in process sentinel: eieio-oref: Wrong type argument: (or eieio-object class), nil, obj
+(use-package esup
+  :commands esup)
+
 ;; Detect window system.
 (setq windows? (string-equal system-type "windows-nt"))
 (setq linux? (string-equal system-type "gnu/linux"))
@@ -228,6 +233,10 @@
              (list 'file+datetree+prompt (concat my-org-dir "/journal.org"))
              "* %?\n  -- %T\n")
        ))
+;; https://github.com/sabof/org-bullets
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;;; ------------------- Change keybindings ---------------------
 
