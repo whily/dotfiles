@@ -21,6 +21,9 @@
     (cljr-add-keybindings-with-prefix "C-c C-m"))
   (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
 
+;; Purely as an dependency for cider.
+(use-package sesman :defer t)
+
 ;; Cider for clojure.
 ;; Install first.
 (use-package cider

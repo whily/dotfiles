@@ -35,6 +35,7 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "download" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "mine" user-emacs-directory))
 
 ;; VC follows the symbolic links and visits the real file, without
 ;; asking for confirmation.
@@ -60,6 +61,18 @@
 (use-package rainbow-mode
   :commands rainbow-mode
   :hook (emacs-lisp-mode . rainbow-mode))
+
+;; Utilities for writing Emacs package.
+(defun elisp-update-modified ()
+  "Update the `Modified' field in Elisp package header."
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^;; Modified:.*$" nil t)
+      (replace-match (concat ";; Modified: "
+                             (format-time-string "%d %b %Y"))))))
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda ()
+             (add-hook 'before-save-hook 'elisp-update-modified nil t)))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -601,8 +614,6 @@
   (subst-char-in-region start end ?1 ?Y)
   (subst-char-in-region start end ?X ?1)
   (subst-char-in-region start end ?Y ?0))
-
-(add-to-list 'load-path (expand-file-name "mine" user-emacs-directory))
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
