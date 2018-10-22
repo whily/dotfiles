@@ -1,4 +1,4 @@
-;;; init-elpa.el --- Configuration for ELPA package management.
+;;; init-elpa.el --- Configuration for ELPA package management. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; The repos are mainly from mirros in China.
 

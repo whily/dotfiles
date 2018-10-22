@@ -1,4 +1,4 @@
-;;; init-expand.el --- Configuration for expand packages.
+;;; init-expand.el --- Configuration for expand packages. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for Abbrev, Hippie Expand, YASnippet.
 

@@ -1,4 +1,4 @@
-;;; init-webdev.el --- Configuration for web development.
+;;; init-webdev.el --- Configuration for web development. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for HTML, CSS, and Javascript.
 
@@ -27,6 +27,8 @@
 ;; LSP for html from https://github.com/emacs-lsp/lsp-html
 ;; First run in cli: npm i -g vscode-html-languageserver-bin
 (use-package lsp-html
+  ;; Disabled for now as sometimes Emacs hangs when entering HTML code.
+  :disabled t
   :hook (web-mode . lsp-html-enable))
 
 ;; https://github.com/osv/company-web

@@ -1,4 +1,4 @@
-;;; init-mode-line.el --- Configuration for mode line.
+;;; init-mode-line.el --- Configuration for mode line. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for moody + minions.
 

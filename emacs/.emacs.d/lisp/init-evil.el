@@ -1,4 +1,4 @@
-;;; init-evil.el --- Configuration for EVIL and which-key.
+;;; init-evil.el --- Configuration for EVIL and which-key. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Many key bindings follow Spacemacs.
 

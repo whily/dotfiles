@@ -1,4 +1,4 @@
-;;; init-smartparens.el --- Configuration for smartparens.
+;;; init-smartparens.el --- Configuration for smartparens. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for smartparens according to:
 ;;;    https://github.com/Fuco1/smartparens

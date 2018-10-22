@@ -1,4 +1,4 @@
-;;; init-theme.el --- Configuration for themes.
+;;; init-theme.el --- Configuration for themes. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Refer to link below for popular Emacs themes:
 ;;;   https://pawelbx.github.io/emacs-theme-gallery/

@@ -1,4 +1,4 @@
-;;; init-ivy.el --- Configuration for Ivy, counsel, and swiper.
+;;; init-ivy.el --- Configuration for Ivy, counsel, and swiper. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Mainly follows http://oremacs.com/swiper
 

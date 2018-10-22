@@ -1,4 +1,4 @@
-;;; init.el --- My emacs configuration file.
+;;; init.el --- My emacs configuration file. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; With reference to configuration from purcell and spacemacs.
 
@@ -202,6 +202,9 @@
   (shacket-mode)
   :custom
   (shackle-rules '((ivy-occur-grep-mode :select t :align 'below :size 0.3))))
+
+;; The default binding C-c C-w for re-builder is shadowed by eyebrowser.
+(global-set-key "\C-cw" 'reb-copy)
 
 ;; Setup Emacs to run bash as its primary shell.
 (setq shell-file-name "bash")

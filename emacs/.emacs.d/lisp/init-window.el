@@ -1,4 +1,4 @@
-;;; init-window.el --- Configuration for window.
+;;; init-window.el --- Configuration for window. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for winum and eyebrowse.
 

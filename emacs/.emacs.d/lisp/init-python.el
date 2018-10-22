@@ -1,4 +1,4 @@
-;;; init-python.el --- Configuration for python packages.
+;;; init-python.el --- Configuration for python packages. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Use LSP for completion etc instead of anaconda mode.
 

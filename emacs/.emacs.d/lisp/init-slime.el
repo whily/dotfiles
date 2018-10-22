@@ -1,4 +1,4 @@
-;;; init-slime.el --- Configuration for SLIME.
+;;; init-slime.el --- Configuration for SLIME. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; SLIME configuration for both SBCL and CCL.
 

@@ -1,4 +1,4 @@
-;;; init-clojure.el --- Configuration for clojure.
+;;; init-clojure.el --- Configuration for clojure. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Clojure configuration.
 

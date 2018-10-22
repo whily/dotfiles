@@ -1,4 +1,4 @@
-;;; init-kotlin.el --- Configuration for Kotlin.
+;;; init-kotlin.el --- Configuration for Kotlin. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Configuration for Kotlin and Gradle.
 
@@ -6,7 +6,9 @@
 
 ;; https://github.com/Emacs-Kotlin-Mode-Maintainers
 (use-package kotlin-mode
-  :mode "\\.kts?\\'")
+  :mode "\\.kts?\\'"
+  :config
+  (setq kotlin-tab-width 2))
 
 (use-package gradle-mode
   :config

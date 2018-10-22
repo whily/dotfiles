@@ -1,4 +1,4 @@
-;;; init-lsp.el --- Configuration for lsp.
+;;; init-lsp.el --- Configuration for lsp. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; General configuration for LSP. Language specific configuration is
 ;;; handled separately.
