@@ -23,23 +23,12 @@
 ;; After activating the virtual environment, start Emacs from shell.
 ;; It's better to also install all Python packages in the virtual environment (e.g.
 ;; numpy, scipy, matplotlib, pandas, sympy).
-
-(use-package lsp-python
-  :after lsp-mode
-  ;; Macro lsp-python-enable is created below.
-  :hook (python-mode . lsp-python-enable)
-  :init
-  ;; get lsp-python-enable defined
-  ;; NB: use either projectile-project-root or ffip-get-project-root-directory
-  ;;     or any other function that can be used to find the root directory of a project
-  (lsp-define-stdio-client lsp-python "python"
-                           #'projectile-project-root
-                           '("pyls")))
+(add-hook 'python-mode-hook #'lsp)
 
 ;; ein according to https://github.com/millejoh/emacs-ipython-notebook
 (use-package ein :defer t)
 (require 'ein)
-(require 'ein-loaddefs)
+;(require 'ein-loaddefs)
 (require 'ein-notebook)
 (require 'ein-subpackages)
 (setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"

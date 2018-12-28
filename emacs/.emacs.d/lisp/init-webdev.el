@@ -26,10 +26,7 @@
 
 ;; LSP for html from https://github.com/emacs-lsp/lsp-html
 ;; First run in cli: npm i -g vscode-html-languageserver-bin
-(use-package lsp-html
-  ;; Disabled for now as sometimes Emacs hangs when entering HTML code.
-  :disabled t
-  :hook (web-mode . lsp-html-enable))
+(add-hook 'web-mode 'lsp)
 
 ;; https://github.com/osv/company-web
 (use-package company-web

@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package lsp-mode
+  :commands lsp
   :config
   ;; make sure we have lsp-imenu everywhere we have LSP
   (require 'lsp-imenu)
@@ -13,12 +14,12 @@
 
 ;; lsp extras
 (use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
+  :commands lsp-ui-mode
   :custom
   (lsp-ui-sideline-ignore-duplicate t))
 
 (use-package company-lsp
-  :after lsp-mode
+  :commands company-lsp
   :config
   (setq company-lsp-enable-snippet t)
   (setq company-lsp-cache-candidates t)
