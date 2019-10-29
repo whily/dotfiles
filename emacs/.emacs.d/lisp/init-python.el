@@ -26,14 +26,18 @@
 (add-hook 'python-mode-hook #'lsp)
 
 ;; ein according to https://github.com/millejoh/emacs-ipython-notebook
-(use-package ein :defer t)
+(use-package ein)
 (require 'ein)
-;(require 'ein-loaddefs)
 (require 'ein-notebook)
 (require 'ein-subpackages)
 (setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"
       ein:jupyter-default-notebook-directory "~/tutorial/pytorch")
 ;; Start the server with `M-x ein:jupyter-server-start`.
+
+;; May try emacs-jupyter. For example
+;;(use-package jupyter)
+;; To start a new kernel on the localhost and connect a REPL client to it `M-x jupyter-run-repl'.
+
 ;; Increase image size on HiDPI screen. From https://github.com/syl20bnr/spacemacs/issues/8770
 (defun create-image-2x (oldfun file-or-data &optional type data-p &rest props)
   (let ((original (apply oldfun (append (list file-or-data type data-p) props))))
