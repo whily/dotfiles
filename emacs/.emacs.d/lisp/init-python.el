@@ -26,12 +26,12 @@
 (add-hook 'python-mode-hook #'lsp)
 
 ;; ein according to https://github.com/millejoh/emacs-ipython-notebook
-(use-package ein)
-(require 'ein)
-(require 'ein-notebook)
-(require 'ein-subpackages)
-(setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"
-      ein:jupyter-default-notebook-directory "~/tutorial/pytorch")
+;;;;(use-package ein)
+;;;;(require 'ein)
+;;;;(require 'ein-notebook)
+;;;;(require 'ein-subpackages)
+;;;;(setq ein:jupyter-default-server-command "~/anaconda3/envs/py3.6/bin/jupyter"
+;;;;      ein:jupyter-default-notebook-directory "~/tutorial/pytorch")
 ;; Start the server with `M-x ein:jupyter-server-start`.
 
 ;; May try emacs-jupyter. For example
