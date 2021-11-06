@@ -35,15 +35,15 @@
 
 ;; LSP for css from https://github.com/emacs-lsp/lsp-css
 ;; First run in cli: npm i -g vscode-css-languageserver-bin
-(defun my-css-mode-setup ()
-  (when (eq major-mode 'css-mode)
-    ;; Only enable in strictly css-mode, not scss-mode (css-mode-hook
-    ;; fires for scss-mode because scss-mode is derived from css-mode)
-    (lsp-css-enable)))
-(use-package lsp-css
-  :hook  ((css-mode . my-css-mode-setup)
-          (less-mode . lsp-less-enable)
-          ((sass-mode scss-mode) . lsp-scss-enable)))
+;; (defun my-css-mode-setup ()
+;;   (when (eq major-mode 'css-mode)
+;;     ;; Only enable in strictly css-mode, not scss-mode (css-mode-hook
+;;     ;; fires for scss-mode because scss-mode is derived from css-mode)
+;;     (lsp-css-enable)))
+;; (use-package lsp-css
+;;   :hook  ((css-mode . my-css-mode-setup)
+;;           (less-mode . lsp-less-enable)
+;;           ((sass-mode scss-mode) . lsp-scss-enable)))
 
 ;; Colourise CSS colour literals
 (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
@@ -78,8 +78,8 @@
 
 ;; Follow https://github.com/emacs-lsp/lsp-javascript
 ;; First run in CLI: npm i -g javascript-typescript-langserver
-(use-package lsp-javascript-typescript
-  :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
+;; (use-package lsp-javascript-typescript
+;;   :hook ((js2-mode typescript-mode) . lsp-javascript-typescript-enable))
 
 ;; Use eslint and babel with flycheck for JS.
 ;; Based on http://codewinds.com/blog/2015-04-02-emacs-flycheck-eslint-jsx.html,
