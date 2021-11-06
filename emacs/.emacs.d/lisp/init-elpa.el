@@ -9,9 +9,9 @@
 ;; Another mirror, not tested, not added below: https://mirrors4.tuna.tsinghua.edu.cn/help/elpa/
 (require 'package)
 (setq package-archives
-      '(("gnu-elpa"     . "http://elpa.emacs-china.org/gnu/")
-        ("melpa-stable" . "http://elpa.emacs-china.org/melpa-stable/")
-        ("melpa" .        "http://elpa.emacs-china.org/melpa/")
+      '(("gnu-elpa"     . "http://elpa.zilongshanren.com/gnu/")
+        ("melpa-stable" . "http://elpa.zilongshanren.com/stable-melpa/")
+        ("melpa" .        "http://elpa.zilongshanren.com/melpa/")
         ("org"          . "https://orgmode.org/elpa/"))
       package-archive-priorities
       '(("melpa-stable" . 8)
