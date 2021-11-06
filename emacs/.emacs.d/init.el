@@ -33,7 +33,8 @@
 
 ;;; Environment.
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp"
+user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "download" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "mine" user-emacs-directory))
 
@@ -303,7 +304,8 @@
           ("CJK Unified Ideographs Extension E" ("Source Han Sans CN"))
           ("CJK Unified Ideographs Extension F" ("Source Han Sans CN")))
         unicode-fonts-fontset-names '("fontset-default")))
-(unicode-fonts-setup)
+;; Error so comment out.
+;; (unicode-fonts-setup)
 
 ;; Set font.
 (set-frame-font "Inconsolata 18" nil t)
@@ -608,6 +610,18 @@
 (require 'sql)
 
 (require 'init-webdev)
+
+;;; Chess   TODO: doesn't work yet.
+(defun pgn-update-date ()
+  "Update the `Date' field in PGN header (mainly for repertoires)."
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^[Date \".*$" nil t)
+      (replace-match (concat "[Date \""
+                             (format-time-string "%Y.%d.%b]\""))))))
+(add-hook 'auto-mode-alist
+          '("chess/repertoire/.*\\.pgn\\'" . (lambda ()
+                                             (add-hook 'before-save-hook 'pgn-update-date nil t))))
 
 ;;; Utility functions
 (defun toggle01 (start end)
