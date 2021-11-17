@@ -6,17 +6,19 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :commands lsp
-  :config
-  ;; make sure we have lsp-imenu everywhere we have LSP
-  (require 'lsp-imenu)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :commands lsp)
 
 ;; lsp extras
 (use-package lsp-ui
   :commands lsp-ui-mode
   :custom
   (lsp-ui-sideline-ignore-duplicate t))
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package dap-mode)
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

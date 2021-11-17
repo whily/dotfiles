@@ -522,7 +522,7 @@ user-emacs-directory))
   :config
   (setq company-minimum-prefix-length 1)
   (setq company-dabbrev-downcase nil)
-  (setq company-idle-delay 0.5)
+  (setq company-idle-delay 0.0)
   (global-company-mode 1))
 
 ;; https://github.com/expez/company-quickhelp
@@ -548,6 +548,7 @@ user-emacs-directory))
 
 (require 'init-lsp)
 (require 'init-python)
+(require 'init-cpp)
 (require 'init-scala)
 (require 'init-kotlin)
 (require 'init-go)
@@ -561,18 +562,6 @@ user-emacs-directory))
 
 (evil-leader/set-key
   "hX"   'x86-lookup)
-
-;; C/C++ with lsp and cquery. Follow https://github.com/cquery-project/cquery/wiki/Emacs
-;; First install AUR package cquery-git.
-(defun cquery//enable ()
-  (condition-case nil
-      (lsp-cquery-enable)
-    (user-error nil)))
-
-(use-package cquery
-  :commands lsp-cquery-enable
-  :hook ((c-mode c++-mode) . cquery//enable)
-  :init (setq cquery-executable "/bin/cquery"))
 
 ;; For better shell mode.
 (add-hook 'sh-mode-hook
