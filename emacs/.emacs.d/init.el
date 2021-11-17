@@ -550,6 +550,8 @@ user-emacs-directory))
 (require 'init-python)
 (require 'init-scala)
 (require 'init-kotlin)
+(require 'init-go)
+(require 'init-json)
 
 ;; https://github.com/skeeto/x86-lookup
 (use-package x86-lookup
