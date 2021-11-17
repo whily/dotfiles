@@ -9,11 +9,13 @@
 (use-package go-mode
   :mode "\\.go\\'")
 
-;; Install gopls: FAILED!
-;;   mkdir -p $GOPATH/src/golang.org/x
-;;   cd !$
-;;   git clone https://github.com/golang/tools
-;;   go install golang.org/x/tools/gopls
+(use-package go-playground)
+
+;; Install gopls throught socks5 proxy:
+;;     git config --global http.proxy socks5://127.0.0.1:1080
+;;     https_proxy=socks5://127.0.0.1:1080 go get golang.org/x/tools/gopls@latest
+;;     git config --global --unset http.proxy
+
 
 (provide 'init-go)
 ;;; init-go.el ends here
