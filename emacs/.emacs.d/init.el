@@ -457,6 +457,10 @@ user-emacs-directory))
 ;; Spell check spelling in comments.
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
+;; Dictionary.
+(global-set-key (kbd "C-c i") #'dictionary-search)
+(setq dictionary-server "dict.org")
+
 ;; Htmlize source code.
 (use-package htmlize :defer t)
 
