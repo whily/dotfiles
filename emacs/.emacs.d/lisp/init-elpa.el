@@ -6,13 +6,12 @@
 
 ;; ELPA package management. Main reference: https://www.emacswiki.org/emacs/ELPA
 ;; Mirror in China: use https://github.com/emacs-china/elpa in addition to popkit.
-;; Another mirror, not tested, not added below: https://mirrors4.tuna.tsinghua.edu.cn/help/elpa/
 (require 'package)
 (setq package-archives
-      '(("gnu-elpa"     . "http://elpa.zilongshanren.com/gnu/")
-        ("melpa-stable" . "http://elpa.zilongshanren.com/stable-melpa/")
-        ("melpa" .        "http://elpa.zilongshanren.com/melpa/")
-        ("org"          . "https://orgmode.org/elpa/"))
+      '(("gnu-elpa"     . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
+        ("melpa" .        "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("org"          . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
       package-archive-priorities
       '(("melpa-stable" . 8)
         ("gnu-elpa"     . 4)
