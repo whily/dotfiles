@@ -7,7 +7,11 @@
 ;; Emacs load time below and at the end of the file, as well as
 ;; parameter tuning (which reduces startup time significantly)
 ;; are based on
-;;    https://github.com/jwiegley/dot-emacs/blob/master/init.el
+;;    https://github.com/jwiegley/dot-emacs/blob/master/init.org
+
+(setq gc-cons-percentage 0.5
+      gc-cons-threshold (* 128 1024 1024))
+
 (defconst emacs-start-time (current-time))
 
 (defvar file-name-handler-alist-old file-name-handler-alist)
@@ -15,15 +19,11 @@
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
       message-log-max 16384
-      gc-cons-threshold 402653184
-      gc-cons-percentage 0.6
       auto-window-vscroll nil)
 
 (add-hook 'after-init-hook
           `(lambda ()
-             (setq file-name-handler-alist file-name-handler-alist-old
-                   gc-cons-threshold 800000
-                   gc-cons-percentage 0.1)
+             (setq file-name-handler-alist file-name-handler-alist-old)
              (garbage-collect)) t)
 
 ;; For debug purpose. When encoutering an Emacs Lisp error, this will
@@ -58,6 +58,9 @@ user-emacs-directory))
     (exec-path-from-shell-initialize)))
 
 (require 'init-mode-line)
+
+;; Avoid audible ding.
+(setq visible-bell 1)
 
 (use-package rainbow-mode
   :commands rainbow-mode
@@ -498,6 +501,10 @@ user-emacs-directory))
             (lambda ()
               (outline-minor-mode 1)
               (toggle-pdflatex))))
+
+;; Font awesome: https://github.com/emacsorphanage/fontawesome
+;; Use interfactive function counsel-fontawesome to insert the character based on name.
+(use-package fontawesome)
 
 ;; Based on https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (use-package pdf-tools
