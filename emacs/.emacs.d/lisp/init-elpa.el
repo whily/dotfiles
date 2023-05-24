@@ -8,10 +8,10 @@
 ;; Mirror in China: use https://github.com/emacs-china/elpa in addition to popkit.
 (require 'package)
 (setq package-archives
-      '(("gnu-elpa"     . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
-        ("melpa" .        "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("org"          . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/"))
+      '(("gnu-elpa"     . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
+        ("melpa-stable" . "http://mirrors.bfsu.edu.cn/elpa/stable-melpa/")
+        ("melpa" .        "http://mirrors.bfsu.edu.cn/elpa/melpa/")
+        ("org"          . "http://mirrors.bfsu.edu.cn/elpa/org/"))
       package-archive-priorities
       '(("melpa-stable" . 8)
         ("gnu-elpa"     . 4)
