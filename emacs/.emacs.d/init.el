@@ -127,7 +127,7 @@ user-emacs-directory))
 (require 'init-theme)
 
 ;; Enable line numbers globally
-(global-linum-mode t)
+(display-line-numbers-mode)
 
 ;; More room between line number and actual content.
 (fringe-mode 22)
