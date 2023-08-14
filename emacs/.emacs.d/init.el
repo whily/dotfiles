@@ -557,6 +557,8 @@ user-emacs-directory))
     "en"       'flycheck-next-error
     "ep"       'flycheck-previous-error))
 
+(require 'init-tree-sitter)
+
 (require 'init-lsp)
 (require 'init-python)
 (require 'init-cpp)
