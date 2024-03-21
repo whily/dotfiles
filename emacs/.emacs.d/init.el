@@ -311,7 +311,7 @@ user-emacs-directory))
 ;; (unicode-fonts-setup)
 
 ;; Set font.
-(set-frame-font "Inconsolata 18" nil t)
+(set-frame-font "Inconsolata 16" nil t)
 
 ;; Highlight selected region.
 (setq transient-mark-mode t)
@@ -614,6 +614,8 @@ user-emacs-directory))
 (require 'sql)
 
 (require 'init-webdev)
+
+(require 'init-llm)
 
 ;;; Chess   TODO: doesn't work yet.
 (defun pgn-update-date ()
