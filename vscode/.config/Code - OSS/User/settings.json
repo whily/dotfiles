@@ -2,8 +2,14 @@
     "editor.fontFamily": "'Inconsolata, Cousine, Source Han Sans CN'",
     "editor.fontSize": 16,
     "editor.tabSize": 2,
-    "window.zoomLevel":  2,
-    "workbench.colorTheme": "Dracula",
+    "window.zoomLevel": 2,
     "workbench.iconTheme": "vscode-icons",
-    "editor.guides.bracketPairs": true
+    "editor.guides.bracketPairs": true,
+    "verilog.linting.linter": "iverilog",
+    "vsicons.dontShowNewVersionMessage": true,
+    "git.openRepositoryInParentFolders": "never",
+    "python.defaultInterpreterPath": "/home/whily/miniconda3/envs/py3.10/bin/python",
+    "terminal.integrated.inheritEnv": false,
+    "twinny.chatModelName": "deepseek-coder:6.7b-instruct-q5_K_M",
+    "twinny.fimModelName": "deepseek-coder:6.7b-base-q5_K_M"
 }
